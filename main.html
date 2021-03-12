@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <title>Space Invaders</title>
+    </head>
+
+    <body>
+        <div id="score">0</div>
+        <div id="lives">3</div>
+        <canvas id="space" width="1024" height="768"></canvas>
+        <style>
+            #space{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            #score{
+                text-align: right;
+                font-size: 30px;
+            }
+            #lives{
+                text-align: left;
+                font-size: 30px;
+            }
+        </style>
+    </body>
+
+    <script src="canvas.js"></script>
+    <script src="invaders.js"></script>
+    <script src="player.js"></script>
+
+    <script type="text/javascript">
+
+    </script>
+    
+</html>
