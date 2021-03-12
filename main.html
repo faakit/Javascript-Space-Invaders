@@ -31,10 +31,28 @@
     <script src="player.js"></script>
 
     <script type="text/javascript">
-        let board = new Board();
-        let player = new Player(board);
-        board.draw();
-        player.draw();
+        document.addEventListener("keydown", keyPress);
+        let player = new Player();
+        let cluster = new Cluster(8);
+
+        let rockets = [];
+
+        function mainLoop() {
+            setTimeout(function onTick() {
+                drawBoard();
+                player.draw();
+                
+
+                for (rocket of rockets) {
+                    rocket.move();
+                    rocket.draw();
+                }
+
+                mainLoop();
+            }, 7);
+        }
+
+        mainLoop();
     </script>
     
 </html>
