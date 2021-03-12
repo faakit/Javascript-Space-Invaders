@@ -23,16 +23,16 @@ class Invader{
 class Cluster{
     size = 0;
     invaders = [];
+    relativeH = board.height/9
 
-    constructor(size){
-        this.size = size;
-
-        for(let i=0; i<size; i++){
-            
-            let invader = new Invader( 80+(i*80) , (i%3)*80  );
-            this.invaders.push(invader);
-
+    constructor(rows){
+        for(let i=0; i<9; i++){
+            for(let j=0; j<rows; j++){
+                let invader = new Invader( 2*this.relativeH - 30 + (i*this.relativeH) , 50 + j*100);
+                this.invaders.push(invader);
+            }
         }
+
     }
 
 

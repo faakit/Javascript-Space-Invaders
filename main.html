@@ -33,15 +33,18 @@
     <script type="text/javascript">
         document.addEventListener("keydown", keyPress);
         let player = new Player();
-        let cluster = new Cluster(8);
-
+        let cluster = new Cluster(4);
+        
         let rockets = [];
 
         function mainLoop() {
             setTimeout(function onTick() {
                 drawBoard();
                 player.draw();
-                
+
+                for(invader of cluster.invaders){
+                    invader.draw();
+                }
 
                 for (rocket of rockets) {
                     rocket.move();
