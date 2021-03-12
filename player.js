@@ -22,7 +22,7 @@ class Player {
     }
 
     shoot() {
-        let rocket = new Rocket(this.x, this.y);
+        let rocket = new Rocket(this.x + this.size / 2, this.y);
         return rocket;
     }
 }
@@ -38,8 +38,8 @@ class Rocket {
     draw() {
         context.fillStyle = "red";
         context.strokeStyle = "crimson";
-        context.fillRect(this.x, this.y, this.size, this.size * 2);
-        context.strokeRect(this.x, this.y, this.size, this.size * 2);       
+        context.fillRect(this.x, this.y, this.size, this.size * 4);
+        context.strokeRect(this.x, this.y, this.size, this.size * 4);       
     }
 
     move() {

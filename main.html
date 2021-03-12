@@ -46,9 +46,12 @@
                     invader.draw();
                 }
 
-                for (rocket of rockets) {
-                    rocket.move();
-                    rocket.draw();
+                for (let i = 0; i < rockets.length; i++) {
+                    rockets[i].move();
+                    rockets[i].draw();
+                    if (rockets[i].y <= 0) {
+                        rockets.splice(i, 1);
+                    }
                 }
 
                 mainLoop();
