@@ -1,16 +1,21 @@
+"use strict";
+
 class Player {
-    constructor(x) {
-        this.x = x;
-        this.y = 30;
+    size = 50;
+
+    constructor(board) {
+        this.board = board;
+        this.x = board.width / 2;
+        this.y = board.height - (this.size * 2);
         this.lifes = 3;
         this.score = 0;
     }
 
     draw() {
-        boardContext.fillStyle = "grey";
-        boardContext.strokeStyle = "black";
-        boardContext.fillRect(this.x, this.y, 10, 10);
-        boardContext.strokeRect(this.x, this.y, 10, 10);       
+        this.board.context.fillStyle = "grey";
+        this.board.context.strokeStyle = "black";
+        this.board.context.fillRect(this.x, this.y, this.size, this.size);
+        this.board.context.strokeRect(this.x, this.y, this.size, this.size);
     }
 
     move(dx) {

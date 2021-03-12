@@ -31,7 +31,10 @@
     <script src="player.js"></script>
 
     <script type="text/javascript">
-        drawBoard();
+        let board = new Board();
+        let player = new Player(board);
+        board.draw();
+        player.draw();
     </script>
     
 </html>

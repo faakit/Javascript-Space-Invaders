@@ -1,16 +1,17 @@
 "use strict";
 
-// --------- GUI
-const board = document.getElementById("space");
-const boardContext = board.getContext("2d");
-const boardBorder = "Black";
-const boardBackground = "Blue";
+class Board {
+    // --------- GUI
+    board = document.getElementById("space");
+    context = this.board.getContext("2d");
+    border = "Black";
+    background = "Blue";
 
-
-// Desenha o quadro
-function drawBoard(){
-    boardContext.fillStyle = boardBackground;
-    boardContext.strokeStyle = boardBorder;
-    boardContext.fillRect(0, 0, board.width, board.height);
-    boardContext.strokeRect(0, 0, board.width, board.height);
+    // Desenha o quadro
+    draw() {
+        this.context.fillStyle = this.background;
+        this.context.strokeStyle = this.border;
+        this.context.fillRect(0, 0, this.board.width, this.board.height);
+        this.context.strokeRect(0, 0, this.board.width, this.board.height);
+    }
 }
