@@ -40,11 +40,6 @@
         function mainLoop() {
             setTimeout(function onTick() {
                 drawBoard();
-                player.draw();
-
-                for(invader of cluster.invaders){
-                    invader.draw();
-                }
 
                 for (let i = 0; i < rockets.length; i++) {
                     rockets[i].move();
@@ -54,6 +49,13 @@
                     }
                 }
 
+                player.draw();
+
+                for(invader of cluster.invaders){
+                    invader.draw();
+                }
+
+            
                 mainLoop();
             }, 7);
         }
