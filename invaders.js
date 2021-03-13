@@ -4,8 +4,8 @@
 
 class Invader{
     size = 60;
-    width = size;
-    height = size;
+    width = this.size;
+    height = this.size;
 
     constructor(canvas, x,y){
         this.canvas = canvas;

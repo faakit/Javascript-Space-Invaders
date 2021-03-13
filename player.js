@@ -2,8 +2,8 @@
 
 class Player {
     size = 50;
-    width = size;
-    height = size;
+    width = this.size;
+    height = this.size;
 
     constructor(canvas) {
         this.canvas = canvas
@@ -32,8 +32,8 @@ class Player {
 
 class Rocket {
     size = 5;
-    width = size;
-    height = size*4;
+    width = this.size;
+    height = this.size*4;
 
     constructor(canvas, x, y) {
         this.canvas = canvas;
