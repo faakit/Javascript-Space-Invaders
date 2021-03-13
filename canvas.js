@@ -14,6 +14,7 @@ class Canvas {
         this.context.strokeStyle = this.border;
         this.context.fillRect(0, 0, this.board.width, this.board.height);
         this.context.strokeRect(0, 0, this.board.width, this.board.height);
+
         this.drawPoints(score);
         this.drawLifes(lifes);
     }
