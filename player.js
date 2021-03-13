@@ -2,6 +2,8 @@
 
 class Player {
     size = 50;
+    width = size;
+    height = size;
 
     constructor(canvas) {
         this.canvas = canvas
@@ -30,6 +32,8 @@ class Player {
 
 class Rocket {
     size = 5;
+    width = size;
+    height = size*4;
 
     constructor(canvas, x, y) {
         this.canvas = canvas;
@@ -40,8 +44,8 @@ class Rocket {
     draw() {
         this.canvas.context.fillStyle = "red";
         this.canvas.context.strokeStyle = "crimson";
-        this.canvas.context.fillRect(this.x, this.y, this.size, this.size * 4);
-        this.canvas.context.strokeRect(this.x, this.y, this.size, this.size * 4);       
+        this.canvas.context.fillRect(this.x, this.y, this.size, this.height);
+        this.canvas.context.strokeRect(this.x, this.y, this.size, this.height);       
     }
 
     move() {

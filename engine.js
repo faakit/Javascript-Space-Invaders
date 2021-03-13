@@ -5,11 +5,11 @@ class Engine {
     constructor() {
         // Enemy Matrix
 
-        let enemyMatrix = [ [0,1,0,0,1,0,1,1,1],
-                            [0,1,0,0,1,0,1,0,0],
-                            [0,1,1,1,1,0,1,1,1],
-                            [0,1,0,0,1,0,1,0,0],
-                            [0,1,0,0,1,0,1,1,1] ]
+        let enemyMatrix = [ [1,1,1,1,0,0,1,1,1],
+                            [1,0,1,1,0,0,1,0,0],
+                            [1,1,1,1,0,0,1,1,1],
+                            [1,0,0,1,0,0,0,0,1],
+                            [1,0,0,1,1,1,1,1,1] ]
 
         ////////////////
         this.canvas = new Canvas();
@@ -59,5 +59,14 @@ class Engine {
         } else if (keyPressed === SPACEBAR) {
             this.rockets.push(this.player.shoot());
         }
+    }
+
+    // Checa a colisão de dois objetos retangulares
+    isColision(one, two){
+        if( one.x < two.x + two.width &&
+            one.x + one.width > two.x &&
+            one.y < two.y + two.height &&
+            one.y + one.height > two.y 
+            ) return true         
     }
 }
