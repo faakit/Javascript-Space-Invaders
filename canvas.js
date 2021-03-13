@@ -14,6 +14,7 @@ class Canvas {
         this.context.strokeStyle = this.border;
         this.context.fillRect(0, 0, this.board.width, this.board.height);
         this.context.strokeRect(0, 0, this.board.width, this.board.height);
+
         this.drawPoints(score);
         this.drawLifes(lifes);
     }
@@ -21,7 +22,7 @@ class Canvas {
     drawPoints(score){
         this.context.font = "30px Courier New";
         this.context.strokeStyle = "Black";
-        this.context.strokeText("Score: " + score , 850, 40);
+        this.context.strokeText("Score: " + score , 800, 40);
     }
 
     drawLifes(lifes){

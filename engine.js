@@ -38,9 +38,21 @@ class Engine {
 
             this.player.draw();
 
-            for (let invader of this.cluster.invaders) {
-                invader.draw();
+            for(let i = 0; i< this.cluster.invaders.length; i++){
+                this.cluster.invaders[i].draw();
+
+                 //Checa a colisão com todos rockets da cena
+                 for (let j = 0; j < this.rockets.length; j++) {
+
+                    if(this.isColision(this.cluster.invaders[i], this.rockets[j])){
+                        this.cluster.invaders.splice(i, 1);
+                        this.rockets.splice(j, 1);
+                        this.player.score+=10;
+                    }
+
+                }
             }
+
 
             this.mainLoop();
         }, 7);

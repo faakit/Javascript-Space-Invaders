@@ -7,10 +7,11 @@ class Invader{
     width = this.size;
     height = this.size;
 
-    constructor(canvas, x,y){
+    constructor(canvas, x,y, clusterIndex){
         this.canvas = canvas;
         this.x = x;
         this.y = y;
+        this.clusterIndex = clusterIndex;
     }
 
     draw() {
@@ -35,7 +36,7 @@ class Cluster{
             for(let j=0; j<9; j++){
                 if(enemyMatrix[i][j] === 1){
                     this.size++;
-                    let invader = new Invader(canvas, 2*this.relativeH - 30 + (j*this.relativeH) , 50 + i*100);
+                    let invader = new Invader(canvas, 2*this.relativeH - 30 + (j*this.relativeH) , 50 + i*100, this.size-1);
                     this.invaders.push(invader);
                 }
             }
