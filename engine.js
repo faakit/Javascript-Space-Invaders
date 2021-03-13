@@ -47,18 +47,25 @@ class Engine {
     }
 
     keyPress(event) {
-        const LEFT_KEY = 37;
-        const RIGHT_KEY = 39;
-        const SPACEBAR = 32;
+        let keyPressed = event.key;
 
-        let keyPressed = event.keyCode;
-        if(keyPressed === RIGHT_KEY) {
-            this.player.move(20);
-        } else if (keyPressed === LEFT_KEY) {
-            this.player.move(-20);
-        } else if (keyPressed === SPACEBAR) {
-            this.rockets.push(this.player.shoot());
+        //this.map = {};
+        //this.map[keyPressed] = event.type == "keydown";
+
+        this.validActions = {
+            ArrowLeft() {
+                this.player.move(-20);
+            },
+            ArrowRight() {
+                this.player.move(20);
+            },
+            " "() {
+                this.rockets.push(this.player.shoot());
+            }
         }
+
+        this.action = this.validActions[keyPressed];
+        this.action();
     }
 
     // Checa a colisão de dois objetos retangulares
