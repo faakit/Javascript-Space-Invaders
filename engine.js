@@ -59,7 +59,7 @@ class Engine {
 
             this.player.draw();
 
-            for(let i = 0; i< this.cluster.invaders.length; i++){
+            for(let i = this.cluster.invaders.length - 1; i >= 0; i--) {
                 this.cluster.invaders[i].draw();
 
                  //Checa a colisão com todos rockets da cena
@@ -93,10 +93,11 @@ class Engine {
 
     // Checa a colisão de dois objetos retangulares
     isColision(one, two){
-        if(one.x < two.x + two.width &&
-           one.x + one.width > two.x &&
-           one.y < two.y + two.height &&
-           one.y + one.height > two.y)
-            return true;
+        if (one && two)
+            if(one.x < two.x + two.width &&
+               one.x + one.width > two.x &&
+               one.y < two.y + two.height &&
+               one.y + one.height > two.y)
+                return true;
     }
 }
