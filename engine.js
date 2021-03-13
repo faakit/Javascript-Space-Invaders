@@ -3,11 +3,20 @@
 class Engine {
 
     constructor() {
+        // Enemy Matrix
+
+        let enemyMatrix = [ [0,1,0,0,1,0,1,1,1],
+                            [0,1,0,0,1,0,1,0,0],
+                            [0,1,1,1,1,0,1,1,1],
+                            [0,1,0,0,1,0,1,0,0],
+                            [0,1,0,0,1,0,1,1,1] ]
+
+        ////////////////
         this.canvas = new Canvas();
         this.canvas.draw();
         this.player = new Player(this.canvas);
-        this.cluster = new Cluster(this.canvas, 4);
         this.rockets = [];
+        this.cluster = new Cluster(this.canvas, enemyMatrix);
     }
 
     run() {
