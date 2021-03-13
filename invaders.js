@@ -24,14 +24,17 @@ class Invader{
 class Cluster{
     size = 0;
 
-    constructor(canvas, rows){
+    constructor(canvas, enemyMatrix){
         this.canvas = canvas;
         this.invaders = [];
         this.relativeH = canvas.board.height/9
-        for(let i=0; i<9; i++){
-            for(let j=0; j<rows; j++){
-                let invader = new Invader(canvas, 2*this.relativeH - 30 + (i*this.relativeH) , 50 + j*100);
-                this.invaders.push(invader);
+
+        for(let i=0; i<5; i++){
+            for(let j=0; j<9; j++){
+                if(enemyMatrix[i][j] === 1){
+                    let invader = new Invader(canvas, 2*this.relativeH - 30 + (j*this.relativeH) , 50 + i*100);
+                    this.invaders.push(invader);
+                }
             }
         }
 
