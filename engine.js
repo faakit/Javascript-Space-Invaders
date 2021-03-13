@@ -1,15 +1,34 @@
 "use strict";
 
 class Engine {
+    cooldown = 0;
+    validActions = {
+        ArrowLeft() {
+            if (this.player.x - 5 > 0)
+                this.player.move(-5);
+        },
+        ArrowRight() {
+            if (this.player.x + 5 < this.canvas.board.width - this.player.size)
+                this.player.move(5);
+        },
+        " "() {
+            if (this.cooldown) {
+                this.cooldown--;
+                return;
+            }
+
+            this.cooldown = 25;
+            this.rockets.push(this.player.shoot());
+        }
+    };
 
     constructor() {
         // Enemy Matrix
-
-        let enemyMatrix = [ [1,1,1,1,0,0,1,1,1],
-                            [1,0,1,1,0,0,1,0,0],
-                            [1,1,1,1,0,0,1,1,1],
-                            [1,0,0,1,0,0,0,0,1],
-                            [1,0,0,1,1,1,1,1,1] ]
+        let enemyMatrix = [[1,1,1,1,0,0,1,1,1],
+                           [1,0,1,1,0,0,1,0,0],
+                           [1,1,1,1,0,0,1,1,1],
+                           [1,0,0,1,0,0,0,0,1],
+                           [1,0,0,1,1,1,1,1,1]];
 
         ////////////////
         this.canvas = new Canvas();
@@ -17,10 +36,12 @@ class Engine {
         this.player = new Player(this.canvas);
         this.rockets = [];
         this.cluster = new Cluster(this.canvas, enemyMatrix);
+        this.isPressed = {};
     }
 
     run() {
         document.addEventListener("keydown", ev => this.keyPress(ev));
+        document.addEventListener("keyup", ev => this.keyPress(ev));
         this.mainLoop();
     }
 
@@ -49,36 +70,33 @@ class Engine {
                         this.rockets.splice(j, 1);
                         this.player.score+=10;
                     }
-
                 }
             }
 
+            for (let key in this.isPressed) {
+                if (this.isPressed[key]) {
+                    this.action = this.validActions[key];
+                    if (this.action)
+                        this.action();
+                }
+            }
 
             this.mainLoop();
-        }, 7);
+        }, 10);
     }
 
-    keyPress(event) {
-        const LEFT_KEY = 37;
-        const RIGHT_KEY = 39;
-        const SPACEBAR = 32;
 
-        let keyPressed = event.keyCode;
-        if(keyPressed === RIGHT_KEY) {
-            this.player.move(20);
-        } else if (keyPressed === LEFT_KEY) {
-            this.player.move(-20);
-        } else if (keyPressed === SPACEBAR) {
-            this.rockets.push(this.player.shoot());
-        }
+    keyPress(event) {
+        let keyPressed = event.key;
+        this.isPressed[keyPressed] = event.type == "keydown";
     }
 
     // Checa a colisão de dois objetos retangulares
     isColision(one, two){
-        if( one.x < two.x + two.width &&
-            one.x + one.width > two.x &&
-            one.y < two.y + two.height &&
-            one.y + one.height > two.y 
-            ) return true         
+        if(one.x < two.x + two.width &&
+           one.x + one.width > two.x &&
+           one.y < two.y + two.height &&
+           one.y + one.height > two.y)
+            return true;
     }
 }
