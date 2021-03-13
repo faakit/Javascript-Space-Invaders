@@ -1,6 +1,7 @@
 "use strict";
 
 class Engine {
+
     constructor() {
         this.canvas = new Canvas();
         this.canvas.draw();
@@ -16,7 +17,7 @@ class Engine {
 
     mainLoop() {
         setTimeout(() => {
-            this.canvas.draw();
+            this.canvas.draw(this.player.score, this.player.lifes);
 
             for (let i = 0; i < this.rockets.length; i++) {
                 this.rockets[i].move();
