@@ -68,25 +68,25 @@ class Engine {
             for(let i = this.cluster.invaders.length - 1; i >= 0; i--) {
                 //Desenha invaders
                 this.cluster.invaders[i].draw();
+
+                if( (this.cluster.invaders[i].x + this.cluster.invaders[i].width >= (this.canvas.board.width)) && this.moveDirec.dx > 0
+                    || this.cluster.invaders[i].x <= 0 && this.moveDirec.dx < 0){
+                    this.moveDirec.dx = -this.moveDirec.dx;
+                    this.moveDirec.dy = 0;
+                    this.cluster.move(0,10);
+                }
                  //Checa a colisão com todos rockets da cena
                  for (let j = 0; j < this.rockets.length; j++) {
                     //Caso haja colisão deleta o rocket, o invader e acrescenta 10 ao score
-                    if(this.isColision(this.cluster.invaders[i], this.rockets[j])){
-                        console.log(this.cluster.invaders[i]);
+                    if(this.isColision(this.cluster.invaders[i], this.rockets[j])){ 
                         this.cluster.invaders.splice(i, 1);
                         this.rockets.splice(j, 1);
                         this.player.score+=10;
                     }
                 }
             }
-            for(let i = this.cluster.invaders.length - 1 ; i >= 0; i--) {
-                //Checa colisão com a borda lateral da tela e troca a direção x
-                if(this.cluster.invaders[i].x + this.cluster.invaders[i].width >= this.canvas.board.width
-                    || this.cluster.invaders[i].x <= 0 ){
-                    this.moveDirec.dx = -this.moveDirec.dx;
-                    this.moveDirec.dy = 0;
-                }
-            }
+
+            
             this.cluster.move( this.moveDirec.dx , this.moveDirec.dy );
 
             //Checa as teclas pressionadas e faz a ação
