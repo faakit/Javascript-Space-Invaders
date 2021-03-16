@@ -1,2 +1,2 @@
-engine = new Engine();
+let engine = new Engine();
 engine.run();
