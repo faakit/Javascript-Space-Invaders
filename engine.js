@@ -13,7 +13,6 @@ class Engine {
         },
         " "() {
             if (this.cooldown) {
-                this.cooldown--;
                 return;
             }
 
@@ -98,6 +97,8 @@ class Engine {
                 }
             }
 
+            if (this.cooldown > 0)
+                this.cooldown--;
             this.mainLoop();
         }, 10);
     }
