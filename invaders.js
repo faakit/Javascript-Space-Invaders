@@ -20,6 +20,16 @@ class Invader{
         this.canvas.context.fillRect(this.x, this.y, this.size, this.size);
         this.canvas.context.strokeRect(this.x, this.y, this.size, this.size);       
     }
+
+    shoot() {
+        let roll = Math.floor(Math.random() * 100);
+        if (roll < 5) {
+            let rocket = new Rocket(this.canvas, this.x + this.size / 2, this.y);
+            rocket.from = "invader";
+            return rocket;
+        }
+        return null;
+    }
 }
 
 // ---------- Cluster
@@ -53,6 +63,18 @@ class Cluster{
             this.invaders[i].x+=x;
             this.invaders[i].y+=y;
         }
+    }
+
+    shoot() {
+        let rockets = [];
+        let roll = Math.floor(Math.random() * 100);
+        if (roll < 40) {
+            let j = Math.floor(Math.random() * this.invaders.length);
+            let rocket = this.invaders[j].shoot();
+            if (rocket)
+                rockets.push(rocket);
+        }
+        return rockets;
     }
 
 }

@@ -56,7 +56,7 @@ class Engine {
                 this.rockets[i].move();
                 this.rockets[i].draw();
                 //Deleta os rockets que saem da cena
-                if (this.rockets[i].y <= 0) {
+                if (this.rockets[i].y <= 0 || this.rockets[i].y >= this.canvas.board.height) {
                     this.rockets.splice(i, 1);
                 }
             }
@@ -77,16 +77,26 @@ class Engine {
                  //Checa a colisão com todos rockets da cena
                  for (let j = 0; j < this.rockets.length; j++) {
                     //Caso haja colisão deleta o rocket, o invader e acrescenta 10 ao score
-                    if(this.isColision(this.cluster.invaders[i], this.rockets[j])){ 
+                    if(this.rockets[j].from === "player"
+                       && this.isColision(this.cluster.invaders[i], this.rockets[j])){ 
                         this.cluster.invaders.splice(i, 1);
                         this.rockets.splice(j, 1);
                         this.player.score+=10;
+                        continue;
+                    }
+                    if(this.rockets[j].from === "invader"
+                       && this.isColision(this.player, this.rockets[j])){ 
+                        this.player.lifes -= 1;
+                        this.rockets.splice(j, 1);
+                        continue;
                     }
                 }
             }
 
             
             this.cluster.move( this.moveDirec.dx , this.moveDirec.dy );
+            if (this.cluster.invaders.length)
+                this.rockets = this.rockets.concat(this.cluster.shoot());
 
             //Checa as teclas pressionadas e faz a ação
             for (let key in this.isPressed) {
