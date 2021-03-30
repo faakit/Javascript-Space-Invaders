@@ -11,13 +11,13 @@ class Player {
         this.y = canvas.board.height - (this.size * 2);
         this.lifes = 3;
         this.score = 0;
+        this.sprite = new Sprite(this.canvas, "img/player.png", [this.size, this.size], 0, [0]);
     }
 
     draw() {
         this.canvas.context.fillStyle = "grey";
         this.canvas.context.strokeStyle = "black";
-        this.canvas.context.fillRect(this.x, this.y, this.size, this.size);
-        this.canvas.context.strokeRect(this.x, this.y, this.size, this.size);       
+        this.sprite.render(this.x, this.y);    
     }
 
     move(dx) {

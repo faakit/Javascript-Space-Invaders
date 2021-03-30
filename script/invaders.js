@@ -12,13 +12,13 @@ class Invader{
         this.x = x;
         this.y = y;
         this.clusterIndex = clusterIndex;
+        this.sprite = new Sprite(this.canvas, "img/invader1.png", [this.size, this.size], 10, [0, 1, 2, 3, 4, 3, 2, 1]);
     }
 
     draw() {
         this.canvas.context.fillStyle = "grey";
-        this.canvas.context.strokeStyle = "black";
-        this.canvas.context.fillRect(this.x, this.y, this.size, this.size);
-        this.canvas.context.strokeRect(this.x, this.y, this.size, this.size);       
+        this.canvas.context.strokeStyle = "black";  
+        this.sprite.render(this.x,this.y);    
     }
 
     shoot() {
