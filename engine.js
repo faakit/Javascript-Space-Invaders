@@ -71,7 +71,7 @@ class Engine {
 
                 if( (this.cluster.invaders[i].x + this.cluster.invaders[i].width >= (this.canvas.board.width)) && this.moveDirec.dx > 0
                     || this.cluster.invaders[i].x <= 0 && this.moveDirec.dx < 0){
-                    this.moveDirec.dx = -this.moveDirec.dx;
+                    this.moveDirec.dx = -this.moveDirec.dx*1.06;
                     this.moveDirec.dy = 0;
                     this.cluster.move(0,10);
                 }
