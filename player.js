@@ -26,6 +26,7 @@ class Player {
 
     shoot() {
         let rocket = new Rocket(this.canvas, this.x + this.size / 2, this.y);
+        rocket.from = "player";
         return rocket;
     }
 }
@@ -49,6 +50,10 @@ class Rocket {
     }
 
     move() {
-        this.y -= 10;
+        if (this.from === "player") {
+            this.y -= 10;
+            return
+        }
+        this.y += 5;
     }
 }
