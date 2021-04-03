@@ -24,8 +24,16 @@ class Engine {
     constructor() {
         // Canvas
         this.canvas = new Canvas();
-        this.canvas.draw();
 
+        document.addEventListener("keydown", ev => this.keyPress(ev));
+        document.addEventListener("keyup", ev => this.keyPress(ev));
+
+        //this.actualScore = 0;
+        this.highScore = 0;
+        this.gameStatus = "running"
+    }
+
+    run() {
         // Enemies
         let enemyMatrix = [[1,1,1,1,0,0,1,1,1],
                            [1,0,1,1,0,0,1,0,0],
@@ -39,17 +47,32 @@ class Engine {
         this.player = new Player(this.canvas);
         this.rockets = [];
         this.isPressed = {};
-    }
 
-    run() {
-        document.addEventListener("keydown", ev => this.keyPress(ev));
-        document.addEventListener("keyup", ev => this.keyPress(ev));
         this.mainLoop();
     }
 
     mainLoop() {
         setTimeout(() => {
-            this.canvas.draw(this.player.score, this.player.lifes);
+            if (this.gameStatus === "running") {
+                this.gameStep();
+                if (this.gameOver()) {
+                    this.actualScore = this.player.score;
+                    if (this.actualScore > this.highScore)
+                        this.highScore = this.actualScore;
+                    this.run();
+                }
+                else
+                    this.mainLoop();
+            }
+            else if (this.gameStatus === "replay") {
+                this.canvas.drawReplay(this.actualScore);
+                this.mainLoop();
+            }
+        }, 10);
+    }
+
+    gameStep() {
+            this.canvas.draw(this.player.score, this.highScore, this.player.lifes);
 
             //Caso hajam rockets na cena, os desenha e os move
             for (let i = 0; i < this.rockets.length; i++) {
@@ -68,6 +91,9 @@ class Engine {
                 //Desenha invaders
                 this.cluster.invaders[i].draw();
 
+                if (this.isColision(this.player, this.cluster.invaders[i]))
+                    this.player.lifes = 0;
+
                 if( (this.cluster.invaders[i].x + this.cluster.invaders[i].width >= (this.canvas.board.width)) && this.moveDirec.dx > 0
                     || this.cluster.invaders[i].x <= 0 && this.moveDirec.dx < 0){
                     this.moveDirec.dx = -this.moveDirec.dx*1.06;
@@ -84,6 +110,7 @@ class Engine {
                         this.player.score+=10;
                         continue;
                     }
+
                     if(this.rockets[j].from === "invader"
                        && this.isColision(this.player, this.rockets[j])){ 
                         this.player.lifes -= 1;
@@ -92,11 +119,10 @@ class Engine {
                     }
                 }
             }
-
             
             this.cluster.move( this.moveDirec.dx , this.moveDirec.dy );
-            if (this.cluster.invaders.length)
-                this.rockets = this.rockets.concat(this.cluster.shoot());
+            //if (this.cluster.invaders.length)
+            //    this.rockets = this.rockets.concat(this.cluster.shoot());
 
             //Checa as teclas pressionadas e faz a ação
             for (let key in this.isPressed) {
@@ -109,13 +135,13 @@ class Engine {
 
             if (this.cooldown > 0)
                 this.cooldown--;
-            this.mainLoop();
-        }, 10);
-    }
 
+    }
 
     keyPress(event) {
         let keyPressed = event.key;
+        if (keyPressed === "Enter")
+            this.gameStatus = "running"
         this.isPressed[keyPressed] = event.type == "keydown";
     }
 
@@ -127,5 +153,14 @@ class Engine {
                one.y < two.y + two.height &&
                one.y + one.height > two.y)
                 return true;
+    }
+
+    gameOver() {
+        if (!this.player.lifes) {
+            this.gameStatus = "replay";
+
+            return true;
+        }
+        return false;
     }
 }

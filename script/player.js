@@ -9,7 +9,7 @@ class Player {
         this.canvas = canvas
         this.x = canvas.board.width / 2;
         this.y = canvas.board.height - (this.size * 2);
-        this.lifes = 3;
+        this.lifes = 1;
         this.score = 0;
         this.sprite = new Sprite(this.canvas, "img/player.png", [this.size, this.size], 0, [0]);
     }
