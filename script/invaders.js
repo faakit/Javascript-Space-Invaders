@@ -7,17 +7,15 @@ class Invader{
     width = this.size;
     height = this.size;
 
-    constructor(canvas, x,y, clusterIndex){
+    constructor(canvas, x,y, clusterIndex, type){
         this.canvas = canvas;
         this.x = x;
         this.y = y;
         this.clusterIndex = clusterIndex;
-        this.sprite = new Sprite(this.canvas, "img/invader1.png", [this.size, this.size], 10, [0, 1, 2, 3, 4, 3, 2, 1]);
+        this.sprite = new Sprite(this.canvas, "img/invader" + type +".png", [this.size, this.size], 10, [0, 1, 2, 3, 4, 3, 2, 1]);
     }
 
     draw() {
-        this.canvas.context.fillStyle = "grey";
-        this.canvas.context.strokeStyle = "black";  
         this.sprite.render(this.x,this.y);    
     }
 
@@ -48,9 +46,10 @@ class Cluster{
         //Cria cada invader individualmente
         for(let i=0; i<5; i++){
             for(let j=0; j<9; j++){
-                if(enemyMatrix[i][j] === 1){
+
+                if(enemyMatrix[i][j] !== 0){
                     this.size++;
-                    let invader = new Invader(canvas, this.x + (j*canvas.board.height/9) , this.y + i*100 , this.size-1);
+                    let invader = new Invader(canvas, this.x + (j*canvas.board.height/9) , this.y + i*100 , this.size-1, enemyMatrix[i][j]);
                     this.invaders.push(invader);
                 }
             }

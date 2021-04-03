@@ -6,6 +6,7 @@ class Canvas {
         this.context = this.board.getContext("2d");
         this.border = "Black";
         this.background = "Blue";
+        this.sprite = new Sprite(this, 'img/background.png', [1024, 768], 20, [0, 1, 0, 1, 2, 1, 0, 1,2,3,2,1])
     }
 
     // Desenha o quadro
@@ -33,10 +34,7 @@ class Canvas {
     }
 
     drawBackground() {
-        this.context.fillStyle = this.background;
-        this.context.strokeStyle = this.border;
-        this.context.fillRect(0, 0, this.board.width, this.board.height);
-        this.context.strokeRect(0, 0, this.board.width, this.board.height);
+        this.sprite.render(0, 0);
     }
 
     drawReplay(score) {
