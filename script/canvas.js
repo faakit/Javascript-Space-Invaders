@@ -23,33 +23,30 @@ class Canvas {
         this.context.textBaseline = "middle";
         this.context.font = "30px Courier New";
         this.context.strokeStyle = "Black";
-        this.context.strokeText(label + score , x, y);
-        //this.context.strokeText("Score: " + score , x, y);
-    }
-
-    drawLifes(lifes, x, y){
-        this.context.font = "30px Courier New";
-        this.context.strokeStyle = "Black";
-        this.context.strokeText("Lifes: " + lifes, x, y);
+        label += score;
+        this.context.strokeText(label, x, y);
     }
 
     drawBackground() {
         this.sprite.render(0, 0);
     }
 
-    drawReplay(score) {
-        this.drawBackground(score)
+    drawWaiting(status, action, score, hiScore) {
+        this.drawBackground()
 
         this.context.textAlign = "center";
         this.context.textBaseline = "middle";
         this.context.font = "100px Courier New";
         this.context.fillStyle = "Black";
-        this.context.fillText("GAME OVER", this.board.width / 2, this.board.height / 4);
+        //this.context.fillText("GAME OVER", this.board.width / 2, this.board.height / 4);
+        this.context.fillText(status, this.board.width / 2, this.board.height / 4);
 
         this.context.font = "50px Courier New";
-        this.context.fillText(`Score: ${score}`, this.board.width / 2, this.board.height / 2);
+        this.context.fillText(`Your Score: ${score}`, this.board.width / 2, this.board.height / 2);
+        this.context.fillText(`Hi Score: ${hiScore}`, this.board.width / 2, 60 + this.board.height / 2);
 
         this.context.font = "25px Courier New";
-        this.context.fillText("Press ENTER to restart", this.board.width / 2, 150 + this.board.height / 2);
+        //this.context.fillText("Press ENTER to restart", this.board.width / 2, 150 + this.board.height / 2);
+        this.context.fillText(`Press ENTER/ESC to ${action}`, this.board.width / 2, 150 + this.board.height / 2);
     }
 }
