@@ -16,8 +16,6 @@ class Invader{
     }
 
     draw() {
-        this.canvas.context.fillStyle = "grey";
-        this.canvas.context.strokeStyle = "black";  
         this.sprite.render(this.x,this.y);    
     }
 

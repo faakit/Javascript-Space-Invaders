@@ -2,22 +2,41 @@
 
 class Engine {
     cooldown = 0;
+    pauseBuffer = 0;
     validActions = {
         ArrowLeft() {
+            if (this.gameStatus != "running")
+                return;
+
             if (this.player.x - 5 > 0)
                 this.player.move(-5);
         },
         ArrowRight() {
+            if (this.gameStatus != "running")
+                return;
+
             if (this.player.x + 5 < this.canvas.board.width - this.player.size)
                 this.player.move(5);
         },
         " "() {
-            if (this.cooldown) {
+            if (this.cooldown || this.gameStatus != "running") {
                 return;
             }
 
             this.cooldown = 25;
             this.rockets.push(this.player.shoot());
+        },
+        Enter() {
+            this.gameStatus = "running";
+        },
+        Escape() {
+            if (this.gameStatus === "running" && !this.pauseBuffer) {
+                this.gameStatus = "paused";
+                this.pauseBuffer = 30;
+            } else if (!this.pauseBuffer) {
+                this.gameStatus = "running";
+                this.pauseBuffer = 30;
+            }
         }
     };
 
@@ -30,7 +49,7 @@ class Engine {
 
         //this.actualScore = 0;
         this.highScore = 0;
-        this.gameStatus = "running"
+        this.gameStatus = "running";
     }
 
     run() {
@@ -59,15 +78,30 @@ class Engine {
                     this.actualScore = this.player.score;
                     if (this.actualScore > this.highScore)
                         this.highScore = this.actualScore;
+                    // Reseta o jogo.
                     this.run();
+                    // Mata o jogo que foi perdido
+                    return;
                 }
-                else
-                    this.mainLoop();
+            } else if (this.gameStatus === "replay") {
+                this.canvas.drawWaiting("GAME OVER", "restart", this.actualScore, this.highScore);
+            } else if (this.gameStatus === "paused") {
+                this.canvas.drawWaiting("PAUSED", "continue", this.player.score, this.highScore);
+            } 
+
+            if (this.pauseBuffer > 0)
+                this.pauseBuffer--;
+
+            //Checa as teclas pressionadas e faz a ação
+            for (let key in this.isPressed) {
+                if (this.isPressed[key]) {
+                    this.action = this.validActions[key];
+                    if (this.action)
+                        this.action();
+                }
             }
-            else if (this.gameStatus === "replay") {
-                this.canvas.drawReplay(this.actualScore);
-                this.mainLoop();
-            }
+
+            this.mainLoop();
         }, 10);
     }
 
@@ -121,17 +155,8 @@ class Engine {
             }
             
             this.cluster.move( this.moveDirec.dx , this.moveDirec.dy );
-            //if (this.cluster.invaders.length)
-            //    this.rockets = this.rockets.concat(this.cluster.shoot());
-
-            //Checa as teclas pressionadas e faz a ação
-            for (let key in this.isPressed) {
-                if (this.isPressed[key]) {
-                    this.action = this.validActions[key];
-                    if (this.action)
-                        this.action();
-                }
-            }
+            if (this.cluster.invaders.length)
+                this.rockets = this.rockets.concat(this.cluster.shoot());
 
             if (this.cooldown > 0)
                 this.cooldown--;
@@ -140,8 +165,10 @@ class Engine {
 
     keyPress(event) {
         let keyPressed = event.key;
-        if (keyPressed === "Enter")
-            this.gameStatus = "running"
+
+        if (keyPressed === "Escape" && event.type === "keyup")
+            this.pauseBuffer = 0;
+
         this.isPressed[keyPressed] = event.type == "keydown";
     }
 
