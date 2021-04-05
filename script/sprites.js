@@ -18,6 +18,7 @@ class Sprite {
         }
     }
 
+    // Para renderizações animadas nas quais os frames se intercalam
     render(x, y) {
         this.x = this.frame * this.size[0];
         this.canvas.context.drawImage(
@@ -31,5 +32,15 @@ class Sprite {
         else this.idx = 0;
 
         this.frame = this.frames[this.idx];
+    }
+
+    // Para renderizações estáticas, podendo mudar o frame
+    renderStatic(x, y, n){
+        this.canvas.context.drawImage(
+            resources.get(this.url),
+            (n * this.size[0]) , 0,
+            this.size[0], this.size[1],
+            x, y,
+            this.size[0], this.size[1]);
     }
 }

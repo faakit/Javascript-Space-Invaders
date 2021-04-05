@@ -13,9 +13,9 @@ class Canvas {
     draw(score, highScore, lifes) {
         this.drawBackground();
 
-        this.write("Lifes: ", lifes, 120, 40);
-        this.write("Score: ", score, this.board.width / 2, 40);
-        this.write("Hi Score: ", highScore, 900, 40);
+        this.write("Lifes: ", lifes, 120, 730);
+        this.write("Score: ", score, this.board.width / 2, 730);
+        this.write("Hi Score: ", highScore, 900, 730);
     }
 
     write(label, score, x, y){
@@ -28,7 +28,7 @@ class Canvas {
     }
 
     drawBackground() {
-        this.sprite.render(0, 0);
+        this.sprite.renderStatic(0, 0, 0);
     }
 
     drawWaiting(status, action, score, hiScore) {

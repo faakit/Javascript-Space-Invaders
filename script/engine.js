@@ -53,14 +53,13 @@ class Engine {
     }
 
     run() {
-        // Enemies
-        let enemyMatrix = [[2,2,2,1,0,0,3,3,3],
-                           [2,0,2,1,0,0,3,0,0],
-                           [2,2,2,1,0,0,3,3,3],
-                           [2,0,0,1,0,0,0,0,3],
-                           [2,0,0,1,1,1,3,3,3]];
+        // starting enemies
+        let enemyMatrix = [[3,3,3,3,3,3,3,3,3],
+                           [2,2,2,2,2,2,2,2,2],
+                           [1,1,1,1,1,1,1,1,1]];
         this.cluster = new Cluster(this.canvas, enemyMatrix);
         this.moveDirec = {dx: 1, dy: 0};
+        this.enemyCooldown = 600;
 
         // Player
         this.player = new Player(this.canvas);
@@ -130,21 +129,23 @@ class Engine {
 
                 if( (this.cluster.invaders[i].x + this.cluster.invaders[i].width >= (this.canvas.board.width)) && this.moveDirec.dx > 0
                     || this.cluster.invaders[i].x <= 0 && this.moveDirec.dx < 0){
-                    this.moveDirec.dx = -this.moveDirec.dx*1.06;
-                    this.moveDirec.dy = 0;
+
+                    this.moveDirec.dx = -this.moveDirec.dx 
                     this.cluster.move(0,10);
                 }
                  //Checa a colisão com todos rockets da cena
                  for (let j = 0; j < this.rockets.length; j++) {
-                    //Caso haja colisão deleta o rocket, o invader e acrescenta 10 ao score
+                    //Caso haja colisão com invader acrescenta 10 ao score
                     if(this.rockets[j].from === "player"
                        && this.isColision(this.cluster.invaders[i], this.rockets[j])){ 
                         this.cluster.invaders.splice(i, 1);
+                        this.cluster.size--;
                         this.rockets.splice(j, 1);
                         this.player.score+=10;
                         continue;
                     }
 
+                    // Colisão com player diminui 1 vida
                     if(this.rockets[j].from === "invader"
                        && this.isColision(this.player, this.rockets[j])){ 
                         this.player.lifes -= 1;
@@ -161,6 +162,13 @@ class Engine {
             if (this.cooldown > 0)
                 this.cooldown--;
 
+            // Spawna novos inimigos
+            if( this.enemyCooldown === 0 ){
+                this.cluster.append([1,1,1,1,1,1,1,1,1]);
+                this.moveDirec.dx = this.moveDirec.dx*1.06;
+                this.enemyCooldown = 800;
+            }else 
+                this.enemyCooldown--;
     }
 
     keyPress(event) {
