@@ -23,7 +23,8 @@ class Engine {
                 return;
             }
 
-            this.cooldown = 25;
+            this.shoot.play();
+            this.cooldown = 45;
             this.rockets.push(this.player.shoot());
         },
         Enter() {
@@ -46,6 +47,15 @@ class Engine {
 
         document.addEventListener("keydown", ev => this.keyPress(ev));
         document.addEventListener("keyup", ev => this.keyPress(ev));
+
+        this.shoot = new Sound("soundfx/shoot.wav");
+        this.invaderKill = new Sound("soundfx/invaderkilled.wav");
+        this.playerHit = new Sound("soundfx/explosion.wav");
+        this.music = [];
+        this.music.push(new Sound("soundfx/fastinvader1.wav"));
+        this.music.push(new Sound("soundfx/fastinvader2.wav"));
+        this.music.push(new Sound("soundfx/fastinvader3.wav"));
+        this.music.push(new Sound("soundfx/fastinvader4.wav"));
 
         //this.actualScore = 0;
         this.highScore = 0;
@@ -71,6 +81,8 @@ class Engine {
         this.mainLoop();
     }
 
+    notPlay = 0;
+    musicId = 0;
     mainLoop() {
         setTimeout(() => {
             if (this.gameStatus === "running") {
@@ -102,6 +114,7 @@ class Engine {
                         this.action();
                 }
             }
+
 
             this.mainLoop();
         }, 10);
@@ -152,6 +165,7 @@ class Engine {
                 // Caso haja colisão com invader acrescenta 10 ao score
                 if (this.rockets[j].from === "player"
                     && this.isColision(this.cluster.invaders[i], this.rockets[j])) {
+                    this.invaderKill.play();
                     this.cluster.invaders.splice(i, 1);
                     this.cluster.size--;
                     this.rockets.splice(j, 1);
@@ -162,13 +176,23 @@ class Engine {
                 // Colisão com player diminui 1 vida
                 if (this.rockets[j].from === "invader"
                     && this.isColision(this.player, this.rockets[j])) {
+                    this.playerHit.play();
                     this.player.lifes -= 1;
                     this.rockets.splice(j, 1);
                     continue;
                 }
             }
+        }
 
-
+        if (!this.notPlay) {
+            this.music[this.musicId].play();
+            if (this.musicId < 3)
+                this.musicId++;
+            else
+                this.musicId = 0;
+            this.notPlay = 60;
+        } else {
+            this.notPlay--;
         }
 
         this.cluster.move(this.moveDirec.dx, this.moveDirec.dy);
