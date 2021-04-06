@@ -1,7 +1,6 @@
 "use strict";
 
 class Canvas {
-    widthZero = (window.innerWidth - 1024) / 2;
     //width = this.widthZero + 1024;
     width = 1024;
     height = 768;
@@ -17,6 +16,7 @@ class Canvas {
     }
 
     resize() {
+        this.widthZero = (window.innerWidth - 1024) / 2;
         this.board.width  = window.innerWidth;
         this.board.height = window.innerHeight;
     }
