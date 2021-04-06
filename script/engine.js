@@ -129,13 +129,30 @@ class Engine {
             this.rocksCluster.rocks[i].draw();
         }
 
-        //Caso hajam rockets na cena, os desenha e os move
+        // Busca rockets em cena, os desenha, move e checa colisão com player e pedras
         for (let i = 0; i < this.rockets.length; i++) {
             this.rockets[i].move();
             this.rockets[i].draw();
             //Deleta os rockets que saem da cena
             if (this.rockets[i].y <= 0 || this.rockets[i].y >= this.canvas.height) {
                 this.rockets.splice(i, 1);
+            }
+            // Colisão com player diminui 1 vida
+            if (this.rockets[i].from === "invader"
+            && this.isColision(this.player, this.rockets[i])) {
+                this.playerHit.play();
+                this.player.lifes -= 1;
+                this.rockets.splice(i, 1);
+            }
+            // Colisão com a pedra passa um frame, se for o último frame a destrói
+            for(let j = 0; j<this.rocksCluster.size; j++){
+                if (this.isColision(this.rocksCluster.rocks[j], this.rockets[i])) {
+                    this.rocksCluster.rocks[j].frame++;
+                    this.rockets.splice(i, 1);
+                    if(this.rocksCluster.rocks[j].frame === 4){
+                        this.rocksCluster.rocks.splice(j,1);
+                    }
+                }
             }
         }
 
@@ -160,6 +177,7 @@ class Engine {
                 this.cluster.append(rand)
                 this.moveDirec.dx = this.moveDirec.dx * 1.02;
             }
+
             // Checa a colisão com todos rockets da cena
             for (let j = 0; j < this.rockets.length; j++) {
                 // Caso haja colisão com invader acrescenta 10 ao score
@@ -171,16 +189,7 @@ class Engine {
                     this.rockets.splice(j, 1);
                     this.player.score += 10;
                     continue;
-                }
-
-                // Colisão com player diminui 1 vida
-                if (this.rockets[j].from === "invader"
-                    && this.isColision(this.player, this.rockets[j])) {
-                    this.playerHit.play();
-                    this.player.lifes -= 1;
-                    this.rockets.splice(j, 1);
-                    continue;
-                }
+                }    
             }
         }
 
@@ -234,10 +243,5 @@ class Engine {
         }
 
         return false;
-    }
-
-    // ??//????
-    getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min) + 1) + min;
     }
 }
