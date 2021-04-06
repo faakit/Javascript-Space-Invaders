@@ -13,9 +13,9 @@ class Canvas {
     draw(score, highScore, lifes) {
         this.drawBackground();
 
-        this.write("Lifes: ", lifes, 120, 40);
-        this.write("Score: ", score, this.board.width / 2, 40);
-        this.write("Hi Score: ", highScore, 900, 40);
+        this.write("Lifes: ", lifes, 120, 730);
+        this.write("Score: ", score, this.board.width / 2, 730);
+        this.write("Hi Score: ", highScore, 900, 730);
     }
 
     write(label, score, x, y){
@@ -33,6 +33,7 @@ class Canvas {
     starTimer = 0;
 
     drawBackground() {
+
         this.context.fillStyle = this.background;
         this.context.strokeStyle = this.border;
         this.context.fillRect(0, 0, this.board.width, this.board.height);
@@ -77,6 +78,8 @@ class Canvas {
             this.context.fillStyle = "#59a3d2";
             this.context.fillRect(star.x, star.y, star.size, star.size);
         }
+
+
     }
 
     drawWaiting(status, action, score, hiScore) {

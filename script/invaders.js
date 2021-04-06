@@ -39,11 +39,11 @@ class Cluster{
         this.canvas = canvas;
         this.invaders = [];
         this.x = 2 * canvas.board.height/9 - 30;
-        this.y=50;
+        this.y=0;
         
 
         //Cria cada invader individualmente
-        for(let i=0; i<5; i++){
+        for(let i=0; i<3; i++){
             for(let j=0; j<9; j++){
 
                 if(enemyMatrix[i][j] !== 0){
@@ -73,6 +73,17 @@ class Cluster{
                 rockets.push(rocket);
         }
         return rockets;
+    }
+
+    append(enemyLine){
+        //Cria cada invader individualmente
+        for(let i=0; i<9; i++){
+            if(enemyLine[i] !== 0){
+                this.size++;
+                let invader = new Invader(this.canvas, this.x + (i*this.canvas.board.height/9) , this.y - 110, this.size-1, enemyLine[i]);
+                this.invaders.push(invader);
+            }
+        }
     }
 
 }
