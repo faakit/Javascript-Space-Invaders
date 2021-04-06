@@ -22,8 +22,7 @@ class Invader{
     shoot() {
         let roll = Math.floor(Math.random() * 100);
         if (roll < 5) {
-            let rocket = new Rocket(this.canvas, this.x + this.size / 2, this.y);
-            rocket.from = "invader";
+            let rocket = new Rocket("invader", this.canvas, this.x + this.size / 2, this.y);
             return rocket;
         }
         return null;

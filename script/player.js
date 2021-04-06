@@ -23,28 +23,34 @@ class Player {
     }
 
     shoot() {
-        let rocket = new Rocket(this.canvas, this.x + this.size / 2, this.y);
-        rocket.from = "player";
+        let rocket = new Rocket("player", this.canvas, this.x + this.size / 2, this.y);
         return rocket;
     }
 }
 
 class Rocket {
-    size = 5;
-    width = this.size;
-    height = this.size*4;
+    constructor(from, canvas, x, y) {
+        this.from = from;
 
-    constructor(canvas, x, y) {
+        if (this.from === "player") {
+            this.width = 5;
+            this.height = 20;
+        } else {
+            this.width = 10;
+            this.height = 10;
+        }
+
         this.canvas = canvas;
         this.x = x;
         this.y = y;
     }
 
     draw() {
-        this.canvas.context.fillStyle = "red";
-        this.canvas.context.strokeStyle = "crimson";
-        this.canvas.context.fillRect(this.x, this.y, this.size, this.height);
-        this.canvas.context.strokeRect(this.x, this.y, this.size, this.height);       
+        if (this.from === "player")
+            this.canvas.context.fillStyle = "#12ff00";
+        else
+            this.canvas.context.fillStyle = "#ff2d15";
+        this.canvas.context.fillRect(this.x, this.y, this.width, this.height);
     }
 
     move() {
@@ -52,6 +58,6 @@ class Rocket {
             this.y -= 10;
             return
         }
-        this.y += 5;
+        this.y += 2;
     }
 }
