@@ -7,7 +7,7 @@ class Player {
 
     constructor(canvas) {
         this.canvas = canvas
-        this.x = canvas.width / 2;
+        this.x = canvas.width / 2; // Posição relativa do player (não considera o offset)
         this.y = canvas.height - (this.size * 2);
         this.lifes = 3;
         this.score = 0;
@@ -15,7 +15,8 @@ class Player {
     }
 
     draw() {
-        this.sprite.renderStatic(this.x, this.y, 0);
+        // Desenha o player considerando o offset
+        this.sprite.renderStatic(this.canvas.offset + this.x, this.y, 0);
     }
 
     move(dx) {
@@ -50,7 +51,7 @@ class Rocket {
             this.canvas.context.fillStyle = "#12ff00";
         else
             this.canvas.context.fillStyle = "#ff2d15";
-        this.canvas.context.fillRect(this.x, this.y, this.width, this.height);
+        this.canvas.context.fillRect(this.canvas.offset + this.x, this.y, this.width, this.height);
     }
 
     move() {
@@ -58,6 +59,7 @@ class Rocket {
             this.y -= 10;
             return
         }
+
         this.y += 2;
     }
 }
