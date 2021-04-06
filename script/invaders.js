@@ -3,7 +3,7 @@
 // ---------- Inimigo único
 
 class Invader{
-    size = 60;
+    size = 40;
     width = this.size;
     height = this.size;
 
@@ -48,7 +48,7 @@ class Cluster{
 
                 if(enemyMatrix[i][j] !== 0){
                     this.size++;
-                    let invader = new Invader(canvas, this.x + (j*canvas.board.height/9) , this.y + i*100 , this.size-1, enemyMatrix[i][j]);
+                    let invader = new Invader(canvas, this.x + (j*canvas.board.height/14) , this.y + i*50 , this.size-1, enemyMatrix[i][j]);
                     this.invaders.push(invader);
                 }
             }
@@ -61,6 +61,7 @@ class Cluster{
             this.invaders[i].x+=x;
             this.invaders[i].y+=y;
         }
+        this.x+=x;
     }
 
     shoot() {
@@ -75,14 +76,12 @@ class Cluster{
         return rockets;
     }
 
-    append(enemyLine){
+    append(type){
         //Cria cada invader individualmente
         for(let i=0; i<9; i++){
-            if(enemyLine[i] !== 0){
-                this.size++;
-                let invader = new Invader(this.canvas, this.x + (i*this.canvas.board.height/9) , this.y - 110, this.size-1, enemyLine[i]);
-                this.invaders.push(invader);
-            }
+            this.size++;
+            let invader = new Invader(this.canvas, this.x + (i*this.canvas.board.height/14) , this.y , this.size-1, type);
+            this.invaders.push(invader);
         }
     }
 

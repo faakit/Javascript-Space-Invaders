@@ -117,25 +117,30 @@ class Engine {
                 }
             }
 
-            //Desenha o player
+            // Desenha o player
             this.player.draw();
 
             for(let i = this.cluster.invaders.length - 1; i >= 0; i--) {
-                //Desenha invaders
+                // Desenha invaders
                 this.cluster.invaders[i].draw();
 
                 if (this.isColision(this.player, this.cluster.invaders[i]))
                     this.player.lifes = 0;
 
+
+                // Quando o cluster bate na parede vira ao lado contrário, desce uma linha e cria uma linha nova
                 if( (this.cluster.invaders[i].x + this.cluster.invaders[i].width >= (this.canvas.board.width)) && this.moveDirec.dx > 0
                     || this.cluster.invaders[i].x <= 0 && this.moveDirec.dx < 0){
 
                     this.moveDirec.dx = -this.moveDirec.dx 
-                    this.cluster.move(0,10);
+                    this.cluster.move(0,40);
+                    
+                    this.cluster.append( this.getRandomInt(1,3) );
+                    this.moveDirec.dx = this.moveDirec.dx*1.02;
                 }
-                 //Checa a colisão com todos rockets da cena
+                 // Checa a colisão com todos rockets da cena
                  for (let j = 0; j < this.rockets.length; j++) {
-                    //Caso haja colisão com invader acrescenta 10 ao score
+                    // Caso haja colisão com invader acrescenta 10 ao score
                     if(this.rockets[j].from === "player"
                        && this.isColision(this.cluster.invaders[i], this.rockets[j])){ 
                         this.cluster.invaders.splice(i, 1);
@@ -162,13 +167,14 @@ class Engine {
             if (this.cooldown > 0)
                 this.cooldown--;
 
-            // Spawna novos inimigos
+            /* / Spawna novos inimigos
             if( this.enemyCooldown === 0 ){
                 this.cluster.append([1,1,1,1,1,1,1,1,1]);
                 this.moveDirec.dx = this.moveDirec.dx*1.06;
                 this.enemyCooldown = 800;
             }else 
                 this.enemyCooldown--;
+                */
     }
 
     keyPress(event) {
@@ -197,5 +203,11 @@ class Engine {
             return true;
         }
         return false;
+    }
+
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
     }
 }
