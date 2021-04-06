@@ -136,7 +136,9 @@ class Engine {
             //Deleta os rockets que saem da cena
             if (this.rockets[i].y <= 0 || this.rockets[i].y >= this.canvas.height) {
                 this.rockets.splice(i, 1);
+                continue;
             }
+
             // Colisão com player diminui 1 vida
             if (this.rockets[i].from === "invader"
             && this.isColision(this.player, this.rockets[i])) {
