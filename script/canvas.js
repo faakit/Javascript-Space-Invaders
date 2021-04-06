@@ -5,7 +5,7 @@ class Canvas {
         this.board = document.getElementById("space");
         this.context = this.board.getContext("2d");
         this.border = "Black";
-        this.background = "Blue";
+        this.background = "#111f28";
         this.sprite = new Sprite(this, 'img/background.png', [1024, 768], 20, [0, 1, 0, 1, 2, 1, 0, 1,2,3,2,1])
     }
 
@@ -22,13 +22,61 @@ class Canvas {
         this.context.textAlign = "center";
         this.context.textBaseline = "middle";
         this.context.font = "30px Courier New";
-        this.context.strokeStyle = "Black";
+        this.context.fillStyle = "#de1c4e";
+        this.context.strokeStyle = "#de1c4e";
         label += score;
+        this.context.fillText(label, x, y);
         this.context.strokeText(label, x, y);
     }
 
+    stars = [];
+    starTimer = 0;
+
     drawBackground() {
-        this.sprite.render(0, 0);
+        this.context.fillStyle = this.background;
+        this.context.strokeStyle = this.border;
+        this.context.fillRect(0, 0, this.board.width, this.board.height);
+        this.context.strokeRect(0, 0, this.board.width, this.board.height);
+
+        if (!this.starTimer) {
+            let n = Math.floor(Math.random() * 10);
+            let m = Math.floor(Math.random() * 2);
+
+            for (let i = 0; i < n; i++) {
+                let star = {
+                    size: 2 + Math.floor(Math.random() * 4),
+                    x: Math.floor(Math.random() * this.board.width),
+                    y: 0,
+                    dy: 1 + Math.floor(Math.random() * 5)
+                };
+
+                this.stars.push(star);
+            }
+
+            for (let i = 0; i < m; i++) {
+                let star = {
+                    size: 1 + Math.floor(Math.random() * 2),
+                    x: Math.floor(Math.random() * this.board.width),
+                    y: this.board.height,
+                    dy: - 1 - Math.floor(Math.random() * 2)
+                };
+
+                this.stars.push(star);
+            }
+
+            this.starTimer = 30;
+        } else {
+            this.starTimer--;
+        }
+
+        for (let [i, star] of this.stars.entries()) {
+            if (star.y < 0 || star.y > this.board.height) {
+                this.stars.splice(i, 1);
+            }
+            star.y += star.dy;
+            this.context.fillStyle = "#59a3d2";
+            this.context.fillRect(star.x, star.y, star.size, star.size);
+        }
     }
 
     drawWaiting(status, action, score, hiScore) {
@@ -37,7 +85,7 @@ class Canvas {
         this.context.textAlign = "center";
         this.context.textBaseline = "middle";
         this.context.font = "100px Courier New";
-        this.context.fillStyle = "Black";
+        this.context.fillStyle = "#ff2d15";
         //this.context.fillText("GAME OVER", this.board.width / 2, this.board.height / 4);
         this.context.fillText(status, this.board.width / 2, this.board.height / 4);
 
