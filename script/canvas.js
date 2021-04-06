@@ -1,21 +1,33 @@
 "use strict";
 
 class Canvas {
+    widthZero = (window.innerWidth - 1024) / 2;
+    //width = this.widthZero + 1024;
+    width = 1024;
+    height = 768;
+
     constructor() {
         this.board = document.getElementById("space");
         this.context = this.board.getContext("2d");
         this.border = "Black";
         this.background = "#111f28";
-        this.sprite = new Sprite(this, 'img/background.png', [1024, 768], 20, [0, 1, 0, 1, 2, 1, 0, 1,2,3,2,1])
+
+        this.resize();
+        window.addEventListener("resize", ev => this.resize(ev), false)
+    }
+
+    resize() {
+        this.board.width  = window.innerWidth;
+        this.board.height = window.innerHeight;
     }
 
     // Desenha o quadro
     draw(score, highScore, lifes) {
         this.drawBackground();
 
-        this.write("Lifes: ", lifes, 120, 730);
-        this.write("Score: ", score, this.board.width / 2, 730);
-        this.write("Hi Score: ", highScore, 900, 730);
+        this.write("Lifes: ", lifes, this.widthZero + 120, 730);
+        this.write("Score: ", score, this.widthZero + this.width / 2, 730);
+        this.write("Hi Score: ", highScore, this.widthZero + 900, 730);
     }
 
     write(label, score, x, y){
@@ -33,11 +45,10 @@ class Canvas {
     starTimer = 0;
 
     drawBackground() {
-
         this.context.fillStyle = this.background;
-        this.context.strokeStyle = this.border;
+        //this.context.strokeStyle = this.border;
         this.context.fillRect(0, 0, this.board.width, this.board.height);
-        this.context.strokeRect(0, 0, this.board.width, this.board.height);
+        //this.context.strokeRect(0, 0, this.board.width, this.board.height);
 
         if (!this.starTimer) {
             let n = Math.floor(Math.random() * 10);
@@ -78,26 +89,22 @@ class Canvas {
             this.context.fillStyle = "#59a3d2";
             this.context.fillRect(star.x, star.y, star.size, star.size);
         }
-
-
     }
 
     drawWaiting(status, action, score, hiScore) {
         this.drawBackground()
 
-        this.context.textAlign = "center";
-        this.context.textBaseline = "middle";
         this.context.font = "100px Courier New";
         this.context.fillStyle = "#ff2d15";
-        //this.context.fillText("GAME OVER", this.board.width / 2, this.board.height / 4);
-        this.context.fillText(status, this.board.width / 2, this.board.height / 4);
+        this.context.textAlign = "center";
+        this.context.textBaseline = "middle";
+        this.context.fillText(status, this.widthZero + this.width / 2, this.height / 4);
 
         this.context.font = "50px Courier New";
-        this.context.fillText(`Your Score: ${score}`, this.board.width / 2, this.board.height / 2);
-        this.context.fillText(`Hi Score: ${hiScore}`, this.board.width / 2, 60 + this.board.height / 2);
+        this.context.fillText(`Your Score: ${score}`, this.widthZero + this.width / 2, this.height / 2);
+        this.context.fillText(`Hi Score: ${hiScore}`, this.widthZero + this.width / 2, 60 + this.height / 2);
 
         this.context.font = "25px Courier New";
-        //this.context.fillText("Press ENTER to restart", this.board.width / 2, 150 + this.board.height / 2);
-        this.context.fillText(`Press ENTER/ESC to ${action}`, this.board.width / 2, 150 + this.board.height / 2);
+        this.context.fillText(`Press ENTER/ESC to ${action}`, this.widthZero + this.width / 2, 150 + this.height / 2);
     }
 }

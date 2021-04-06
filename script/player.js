@@ -7,15 +7,15 @@ class Player {
 
     constructor(canvas) {
         this.canvas = canvas
-        this.x = canvas.board.width / 2;
-        this.y = canvas.board.height - (this.size * 2);
+        this.x = canvas.width / 2;
+        this.y = canvas.height - (this.size * 2);
         this.lifes = 3;
         this.score = 0;
         this.sprite = new Sprite(this.canvas, "img/player.png", [this.size, this.size], 0, [0]);
     }
 
     draw() {
-        this.sprite.renderStatic(this.x, this.y, 0);    
+        this.sprite.renderStatic(this.x, this.y, 0);
     }
 
     move(dx) {
