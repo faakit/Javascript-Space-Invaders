@@ -143,6 +143,7 @@ class Engine {
                 this.playerHit.play();
                 this.player.lifes -= 1;
                 this.rockets.splice(i, 1);
+                continue;
             }
             // Colisão com a pedra passa um frame, se for o último frame a destrói
             for(let j = 0; j<this.rocksCluster.size; j++){
@@ -151,6 +152,7 @@ class Engine {
                     this.rockets.splice(i, 1);
                     if(this.rocksCluster.rocks[j].frame === 4){
                         this.rocksCluster.rocks.splice(j,1);
+                        continue;
                     }
                 }
             }
@@ -159,6 +161,12 @@ class Engine {
         // Desenha o player
         this.player.draw();
 
+        // Checks dos invaders
+        if(this.cluster.invaders.length < 6){
+            this.cluster.move(0, 40);
+            let rand = 1 + Math.floor(Math.random() * 3)
+            this.cluster.append(rand)
+        }
         for (let i = this.cluster.invaders.length - 1; i >= 0; i--) {
             // Desenha invaders
             this.cluster.invaders[i].draw();
