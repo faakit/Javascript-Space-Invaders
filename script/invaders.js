@@ -38,7 +38,8 @@ class Cluster{
     constructor(canvas, enemyMatrix){
         this.canvas = canvas;
         this.invaders = [];
-        this.x = 2 * canvas.board.height/9 - 30;
+        //this.x = 2 * canvas.height/9 - 30;
+        this.x = this.canvas.widthZero;
         this.y=0;
         
 
@@ -48,7 +49,7 @@ class Cluster{
 
                 if(enemyMatrix[i][j] !== 0){
                     this.size++;
-                    let invader = new Invader(canvas, this.x + (j*canvas.board.height/14) , this.y + i*50 , this.size-1, enemyMatrix[i][j]);
+                    let invader = new Invader(canvas, this.x + (j*canvas.height/14) , this.y + i*50 , this.size-1, enemyMatrix[i][j]);
                     this.invaders.push(invader);
                 }
             }
@@ -80,7 +81,7 @@ class Cluster{
         //Cria cada invader individualmente
         for(let i=0; i<9; i++){
             this.size++;
-            let invader = new Invader(this.canvas, this.x + (i*this.canvas.board.height/14) , this.y , this.size-1, type);
+            let invader = new Invader(this.canvas, this.x + (i*this.canvas.height/14) , this.y , this.size-1, type);
             this.invaders.push(invader);
         }
     }

@@ -8,14 +8,14 @@ class Engine {
             if (this.gameStatus != "running")
                 return;
 
-            if (this.player.x - 5 > 0)
+            if (this.player.x - 5 > this.canvas.widthZero)
                 this.player.move(-5);
         },
         ArrowRight() {
             if (this.gameStatus != "running")
                 return;
 
-            if (this.player.x + 5 < this.canvas.board.width - this.player.size)
+            if (this.player.x + 5 < this.canvas.widthZero + this.canvas.width - this.player.size)
                 this.player.move(5);
         },
         " "() {
@@ -112,7 +112,7 @@ class Engine {
                 this.rockets[i].move();
                 this.rockets[i].draw();
                 //Deleta os rockets que saem da cena
-                if (this.rockets[i].y <= 0 || this.rockets[i].y >= this.canvas.board.height) {
+                if (this.rockets[i].y <= 0 || this.rockets[i].y >= this.canvas.height) {
                     this.rockets.splice(i, 1);
                 }
             }
@@ -129,13 +129,16 @@ class Engine {
 
 
                 // Quando o cluster bate na parede vira ao lado contrário, desce uma linha e cria uma linha nova
-                if( (this.cluster.invaders[i].x + this.cluster.invaders[i].width >= (this.canvas.board.width)) && this.moveDirec.dx > 0
-                    || this.cluster.invaders[i].x <= 0 && this.moveDirec.dx < 0){
+                if( (this.cluster.invaders[i].x + this.cluster.invaders[i].width >= (this.canvas.widthZero + this.canvas.width)) && this.moveDirec.dx > 0
+                    || this.cluster.invaders[i].x <= this.canvas.widthZero && this.moveDirec.dx < 0){
 
                     this.moveDirec.dx = -this.moveDirec.dx 
                     this.cluster.move(0,40);
                     
-                    this.cluster.append( this.getRandomInt(1,3) );
+                    let rand = 1 + Math.floor(Math.random() * 3)
+                    console.log(rand)
+                    this.cluster.append(rand)
+                    //this.cluster.append( this.getRandomInt(1,3) );
                     this.moveDirec.dx = this.moveDirec.dx*1.02;
                 }
                  // Checa a colisão com todos rockets da cena
