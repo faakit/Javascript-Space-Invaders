@@ -53,13 +53,15 @@ class Engine {
     }
 
     run() {
+        // Rocks
+        this.rocksCluster = new RocksCluster(this.canvas);
+
         // starting enemies
         let enemyMatrix = [[3,3,3,3,3,3,3,3,3],
                            [2,2,2,2,2,2,2,2,2],
                            [1,1,1,1,1,1,1,1,1]];
         this.cluster = new Cluster(this.canvas, enemyMatrix);
         this.moveDirec = {dx: 1, dy: 0};
-        this.enemyCooldown = 600;
 
         // Player
         this.player = new Player(this.canvas);
@@ -105,7 +107,14 @@ class Engine {
     }
 
     gameStep() {
+            // Desenha os elementos da HUD
             this.canvas.draw(this.player.score, this.highScore, this.player.lifes);
+
+            // Desenhar os rocks
+            for (let i = 0; i < this.rocksCluster.rocks.length; i++) {
+                this.rocksCluster.rocks[i].draw();
+                
+            }
 
             //Caso hajam rockets na cena, os desenha e os move
             for (let i = 0; i < this.rockets.length; i++) {
@@ -158,6 +167,8 @@ class Engine {
                         continue;
                     }
                 }
+
+
             }
             
             this.cluster.move( this.moveDirec.dx , this.moveDirec.dy );
@@ -167,14 +178,6 @@ class Engine {
             if (this.cooldown > 0)
                 this.cooldown--;
 
-            /* / Spawna novos inimigos
-            if( this.enemyCooldown === 0 ){
-                this.cluster.append([1,1,1,1,1,1,1,1,1]);
-                this.moveDirec.dx = this.moveDirec.dx*1.06;
-                this.enemyCooldown = 800;
-            }else 
-                this.enemyCooldown--;
-                */
     }
 
     keyPress(event) {
@@ -206,8 +209,6 @@ class Engine {
     }
 
     getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min;
+        return Math.floor(Math.random() * (max - min) +1) + min;
     }
 }

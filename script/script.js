@@ -1,4 +1,5 @@
 resources.load([
+    "img/rock.png",
     'img/background.png',
     'img/invader3.png',
     'img/invader2.png',
