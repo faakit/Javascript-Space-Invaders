@@ -1,36 +1,40 @@
 "use strict";
 
 class Canvas {
-    //width = this.widthZero + 1024;
     width = 1024;
     height = 768;
 
     constructor() {
         this.board = document.getElementById("space");
         this.context = this.board.getContext("2d");
-        this.border = "Black";
         this.background = "#111f28";
 
+        // Escala o canvas ao tamanho da janela
         this.resize();
-        window.addEventListener("resize", ev => this.resize(ev), false)
+        window.addEventListener("resize", () => this.resize(), false)
     }
 
     resize() {
-        this.widthZero = (window.innerWidth - 1024) / 2;
-        this.board.width  = window.innerWidth;
+        this.board.width = window.innerWidth;
         this.board.height = window.innerHeight;
+
+        // Deslocamento entre borda da janela e área jogável
+        this.offset = (this.board.width - this.width) / 2;
+
+        // Meio do canvas
+        this.middle = this.board.width / 2;
     }
 
     // Desenha o quadro
     draw(score, highScore, lifes) {
         this.drawBackground();
 
-        this.write("Lifes: ", lifes, this.widthZero + 120, 730);
-        this.write("Score: ", score, this.widthZero + this.width / 2, 730);
-        this.write("Hi Score: ", highScore, this.widthZero + 900, 730);
+        this.write("Lifes: ", lifes, this.offset + 120, 730);
+        this.write("Score: ", score, this.middle, 730);
+        this.write("Hi Score: ", highScore, this.offset + 900, 730);
     }
 
-    write(label, score, x, y){
+    write(label, score, x, y) {
         this.context.textAlign = "center";
         this.context.textBaseline = "middle";
         this.context.font = "30px Courier New";
@@ -44,16 +48,17 @@ class Canvas {
     stars = [];
     starTimer = 0;
 
+    // Animação de fundo
     drawBackground() {
         this.context.fillStyle = this.background;
-        //this.context.strokeStyle = this.border;
         this.context.fillRect(0, 0, this.board.width, this.board.height);
-        //this.context.strokeRect(0, 0, this.board.width, this.board.height);
 
         if (!this.starTimer) {
+            // Cria n estrelas "descendo" e m "subindo"
             let n = Math.floor(Math.random() * 10);
             let m = Math.floor(Math.random() * 2);
 
+            // Estrelas tem tamanho, velocidade e posição inicial diferentes
             for (let i = 0; i < n; i++) {
                 let star = {
                     size: 2 + Math.floor(Math.random() * 4),
@@ -76,15 +81,18 @@ class Canvas {
                 this.stars.push(star);
             }
 
+            // Pausa entre cada fornada de estrelas
             this.starTimer = 30;
         } else {
             this.starTimer--;
         }
 
+        // Desenha estrelas e as mata caso saiam do canvas
         for (let [i, star] of this.stars.entries()) {
             if (star.y < 0 || star.y > this.board.height) {
                 this.stars.splice(i, 1);
             }
+
             star.y += star.dy;
             this.context.fillStyle = "#59a3d2";
             this.context.fillRect(star.x, star.y, star.size, star.size);
@@ -98,13 +106,13 @@ class Canvas {
         this.context.fillStyle = "#ff2d15";
         this.context.textAlign = "center";
         this.context.textBaseline = "middle";
-        this.context.fillText(status, this.widthZero + this.width / 2, this.height / 4);
+        this.context.fillText(status, this.middle, this.height / 4);
 
         this.context.font = "50px Courier New";
-        this.context.fillText(`Your Score: ${score}`, this.widthZero + this.width / 2, this.height / 2);
-        this.context.fillText(`Hi Score: ${hiScore}`, this.widthZero + this.width / 2, 60 + this.height / 2);
+        this.context.fillText(`Your Score: ${score}`, this.middle, this.height / 2);
+        this.context.fillText(`Hi Score: ${hiScore}`, this.middle, 60 + this.height / 2);
 
         this.context.font = "25px Courier New";
-        this.context.fillText(`Press ENTER/ESC to ${action}`, this.widthZero + this.width / 2, 150 + this.height / 2);
+        this.context.fillText(`Press ENTER/ESC to ${action}`, this.middle, 150 + this.height / 2);
     }
 }

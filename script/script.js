@@ -10,7 +10,7 @@ resources.load([
 // Init se torna uma função e então só roda assim que carregadas as imagens do jogo
 resources.onReady(init);
 
-function init(){
+function init() {
     let engine = new Engine();
     engine.run();
 }

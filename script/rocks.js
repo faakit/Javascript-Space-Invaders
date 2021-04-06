@@ -1,10 +1,10 @@
 "use strict";
 
-class Rock{
+class Rock {
     width = 40;
     height = 40;
 
-    constructor(canvas, x, rockIndex){
+    constructor(canvas, x, rockIndex) {
         this.rockIndex = rockIndex;
         this.canvas = canvas;
         this.x = x;
@@ -14,19 +14,19 @@ class Rock{
     }
 
     draw() {
-        this.sprite.renderStatic(this.x,this.y, this.frame);    
+        this.sprite.renderStatic(this.canvas.offset + this.x, this.y, this.frame);
     }
 }
 
-class RocksCluster{
+class RocksCluster {
     size = 0;
 
-    constructor(canvas){
+    constructor(canvas) {
         this.rocks = [];
 
-        for(let i=1; i<5; i++){
-            for(let j=0; j<3 ; j++){
-                let rock = new Rock(canvas, i*144+j*40, this.size);
+        for (let i = 1; i < 5; i++) {
+            for (let j = 0; j < 3; j++) {
+                let rock = new Rock(canvas, i * 144 + j * 40, this.size);
                 this.size++;
                 this.rocks.push(rock);
             }
