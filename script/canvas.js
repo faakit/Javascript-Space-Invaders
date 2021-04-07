@@ -4,6 +4,9 @@ class Canvas {
     width = 1024;
     height = 768;
 
+    globalGlow = 0;
+    glowUp = true;
+
     constructor() {
         this.sprite = new Sprite(this, 'img/firstScreen.png', [1024, 768], 8, [0, 1]);
 
@@ -95,9 +98,14 @@ class Canvas {
                 this.stars.splice(i, 1);
             }
 
+            this.context.shadowBlur = 5 + this.globalGlow;
+            this.context.shadowColor = "#59a3d2";
+
             star.y += star.dy;
             this.context.fillStyle = "#59a3d2";
             this.context.fillRect(star.x, star.y, star.size, star.size);
+
+            this.context.shadowBlur = 0;
         }
     }
 

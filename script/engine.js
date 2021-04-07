@@ -77,6 +77,8 @@ class Engine {
         this.rockets = [];
         this.isPressed = {};
 
+        this.levelCooldown = 600;
+
         this.mainLoop();
     }
 
@@ -120,6 +122,15 @@ class Engine {
     }
 
     gameStep() {
+        // Global Glow
+        if(this.canvas.glowUp){
+            if(this.canvas.globalGlow == 40) this.canvas.glowUp = false;
+            this.canvas.globalGlow += 1;
+        } else {
+            if(this.canvas.globalGlow == 0) this.canvas.glowUp = true;
+            this.canvas.globalGlow -= 1;
+        }
+
         // Desenha os elementos da HUD
         this.canvas.draw(this.player.score, this.highScore, this.player.lifes);
 
@@ -184,7 +195,7 @@ class Engine {
 
                 let rand = 1 + Math.floor(Math.random() * 3)
                 this.cluster.append(rand)
-                this.moveDirec.dx = this.moveDirec.dx * 1.02;
+                this.moveDirec.dx = this.moveDirec.dx * 1.03;
             }
 
             // Checa a colisão com todos rockets da cena
@@ -220,6 +231,14 @@ class Engine {
         // Evita span de tiros
         if (this.cooldown > 0)
             this.cooldown--;
+
+        // Mudanças no nível
+        if (this.levelCooldown > 0){
+            this.levelCooldown--;
+        }else{
+            this.cluster.shootChance++;
+            this.levelCooldown = 600;
+        }
     }
 
     keyPress(event) {

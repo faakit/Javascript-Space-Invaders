@@ -9,7 +9,7 @@ class Rock {
         this.canvas = canvas;
         this.x = x;
         this.y = 600;
-        this.sprite = new Sprite(this.canvas, "img/rock.png", [this.width, this.height], 1, [0, 1, 2, 3]);
+        this.sprite = new Sprite(this.canvas, "img/rock.png", [this.width, this.height], 1, [0, 1, 2, 3], ["#6f3f3a", 5]);
         this.frame = 0;
     }
 

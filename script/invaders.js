@@ -5,12 +5,13 @@ class Invader {
     width = this.size;
     height = this.size;
 
+    invaderGlowDic = {1:"#008d27", 2:"#ff0080", 3:"#e73029"};
     constructor(canvas, x, y, clusterIndex, type) {
         this.canvas = canvas;
         this.x = x;
         this.y = y;
         this.clusterIndex = clusterIndex;
-        this.sprite = new Sprite(this.canvas, "img/invader" + type + ".png", [this.size, this.size], 10, [0, 1, 2, 3, 4, 3, 2, 1]);
+        this.sprite = new Sprite(this.canvas, "img/invader" + type + ".png", [this.size, this.size], 10, [0, 1, 2, 3, 4, 3, 2, 1], [this.invaderGlowDic[type], 30]);
     }
 
     draw() {
@@ -30,6 +31,7 @@ class Invader {
 
 class Cluster {
     size = 0;
+    shootChance = 0;
 
     constructor(canvas, enemyMatrix) {
         this.canvas = canvas;
@@ -62,7 +64,7 @@ class Cluster {
         let rockets = [];
         let roll = Math.floor(Math.random() * 100);
         // Chance de haver fogo inimigo
-        if (roll < 40) {
+        if (roll < this.shootChance) {
             let j = Math.floor(Math.random() * this.invaders.length);
             let rocket = this.invaders[j].shoot();
             if (rocket)
