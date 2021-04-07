@@ -11,6 +11,13 @@ class Sound {
         document.body.appendChild(this.sound);
     }
 
+    static muteGame() {
+        let soundfx = document.querySelectorAll("audio");
+        for (let sound of soundfx) {
+            sound.muted = !sound.muted;
+        }
+    }
+
     play() {
         this.sound.play();
     }

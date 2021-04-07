@@ -11,7 +11,7 @@ class Player {
         this.y = canvas.height - (this.size * 2);
         this.lifes = 3;
         this.score = 0;
-        this.sprite = new Sprite(this.canvas, "img/player.png", [this.size, this.size], 0, [0], ["#23cad5", 5]);
+        this.sprite = new Sprite(this.canvas, "img/player.png", [this.size, this.size], 0, [0], ["#23cad5", 3]);
     }
 
     draw() {

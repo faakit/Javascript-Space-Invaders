@@ -2,7 +2,7 @@
 
 class Engine {
     cooldown = 0;
-    pauseDelay = 0;
+    holdingKey = false;
     validActions = {
         ArrowLeft() {
             if (this.gameStatus != "running")
@@ -29,35 +29,51 @@ class Engine {
         },
         Enter() {
             if (this.gameStatus === "paused") {
-                this.gameMusic.play();
-                this.pauseMusic.pause();
+                this.resume();
             } else if (this.gameStatus === "over" || this.gameStatus === "startScreen") {
-                this.gameMusic.stop();
-                this.gameMusic.play();
+                this.start();
             }
-
-            this.gameStatus = "running";
         },
         Escape() {
-            if (this.gameStatus === "running" && !this.pauseDelay) {
-                this.gameStatus = "paused";
-                this.gameMusic.pause();
-                this.pauseMusic.play();
-                this.pauseDelay = 30;
-            } else if (!this.pauseDelay) {
-                if (this.gameStatus === "over") {
-                    this.gameMusic.stop();
-                    this.gameMusic.play();
-                } else {
-                    this.pauseMusic.pause();
-                    this.gameMusic.play();
-                }
+            if (this.holdingKey)
+                return;
 
-                this.gameStatus = "running";
-                this.pauseDelay = 30;
+            if (this.gameStatus === "running") {
+                this.pause();
+            } else if (this.gameStatus === "over") {
+                this.start();
+            } else if (this.gameStatus === "paused"){
+                this.resume();
             }
+
+            this.holdingKey = true;
+        },
+        m() {
+            if (this.holdingKey)
+                return;
+
+            Sound.muteGame()
+            this.holdingKey = true;
         }
     };
+
+    resume() {
+        this.gameMusic.play();
+        this.pauseMusic.pause();
+        this.gameStatus = "running";
+    }
+
+    pause() {
+        this.pauseMusic.play();
+        this.gameMusic.pause();
+        this.gameStatus = "paused";
+    }
+
+    start() {
+        this.gameMusic.stop();
+        this.gameMusic.play();
+        this.gameStatus = "running";
+    }
 
     constructor() {
         // Canvas
@@ -122,10 +138,6 @@ class Engine {
             } else if (this.gameStatus === "paused") {
                 this.canvas.drawWaiting("PAUSED", "continue", this.player.score, this.highScore);
             }
-
-            // Evita flickering e "ruído" caso ESC seja segurado
-            if (this.pauseDelay > 0)
-                this.pauseDelay--;
 
             //Checa as teclas pressionadas e faz a ação
             for (let key in this.isPressed) {
@@ -253,10 +265,11 @@ class Engine {
     keyPress(event) {
         let keyPressed = event.key;
 
-        // Reseta o delay se o player soltar o ESC
-        // (permite pause/continue rapidamente se for a intenção do jogador)
-        if (keyPressed === "Escape" && event.type === "keyup")
-            this.pauseDelay = 0;
+        // Se o player segurar ESC ou m a ação será realizada uma vez só
+        // até que ele solte a tecla.
+        // Evita flickering entre os estados mudados pelo evento.
+        if ((keyPressed === "Escape" || keyPressed === "m") && event.type === "keyup")
+            this.holdingKey = false;
 
         this.isPressed[keyPressed] = event.type == "keydown";
     }
