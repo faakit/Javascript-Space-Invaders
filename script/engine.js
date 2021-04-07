@@ -28,13 +28,31 @@ class Engine {
             this.rockets.push(this.player.shoot());
         },
         Enter() {
+            if (this.gameStatus === "paused") {
+                this.gameMusic.play();
+                this.pauseMusic.pause();
+            } else if (this.gameStatus === "over" || this.gameStatus === "startScreen") {
+                this.gameMusic.stop();
+                this.gameMusic.play();
+            }
+
             this.gameStatus = "running";
         },
         Escape() {
             if (this.gameStatus === "running" && !this.pauseDelay) {
                 this.gameStatus = "paused";
+                this.gameMusic.pause();
+                this.pauseMusic.play();
                 this.pauseDelay = 30;
             } else if (!this.pauseDelay) {
+                if (this.gameStatus === "over") {
+                    this.gameMusic.stop();
+                    this.gameMusic.play();
+                } else {
+                    this.pauseMusic.pause();
+                    this.gameMusic.play();
+                }
+
                 this.gameStatus = "running";
                 this.pauseDelay = 30;
             }
@@ -51,14 +69,14 @@ class Engine {
         this.shoot = new Sound("soundfx/shoot.wav");
         this.invaderKill = new Sound("soundfx/invaderkilled.wav");
         this.playerHit = new Sound("soundfx/explosion.wav");
-        this.music = [];
-        this.music.push(new Sound("soundfx/fastinvader1.wav"));
-        this.music.push(new Sound("soundfx/fastinvader2.wav"));
-        this.music.push(new Sound("soundfx/fastinvader3.wav"));
-        this.music.push(new Sound("soundfx/fastinvader4.wav"));
+        this.gameMusic = new Sound("soundfx/goosebumps.mp3");
+        this.pauseMusic = new Sound("soundfx/bladerunner2049.mp3");
+
+        this.gameMusic.loop();
+        this.pauseMusic.loop();
 
         this.highScore = 0;
-        this.gameStatus = "running";
+        this.gameStatus = "startScreen";
     }
 
     run() {
@@ -84,7 +102,9 @@ class Engine {
     musicId = 0;
     mainLoop() {
         setTimeout(() => {
-            if (this.gameStatus === "running") {
+            if (this.gameStatus === "startScreen") {
+                this.canvas.drawStartingScreen();
+            } else if (this.gameStatus === "running") {
                 this.gameStep();
                 if (this.gameOver()) {
                     this.actualScore = this.player.score;
@@ -200,17 +220,6 @@ class Engine {
                     continue;
                 }    
             }
-        }
-
-        if (!this.notPlay) {
-            this.music[this.musicId].play();
-            if (this.musicId < 3)
-                this.musicId++;
-            else
-                this.musicId = 0;
-            this.notPlay = 60;
-        } else {
-            this.notPlay--;
         }
 
         this.cluster.move(this.moveDirec.dx, this.moveDirec.dy);
