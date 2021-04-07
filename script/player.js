@@ -31,30 +31,27 @@ class Player {
 
 class Rocket {
     constructor(from, canvas, x, y) {
-        this.from = from;
+        this.from = from;       // Origem 
 
-        if (this.from === "player") {
-            this.width = 5;
-            this.height = 20;
-        } else {
-            this.width = 5;
-            this.height = 10;
-        }
+        this.width = 5;         // Tamanho
+        this.height = 20;       //
 
         this.canvas = canvas;
-        this.x = x;
-        this.y = y;
+        this.x = x;             // Posição
+        this.y = y;             //
     }
 
     draw() {
         if (this.from === "player"){
+            this.canvas.context.shadowBlur = 30;
             this.canvas.context.shadowColor = "#12ff00";
             this.canvas.context.fillStyle = "#12ff00";
         }else{
-            this.canvas.context.shadowColor = "#ff2d15";
-            this.canvas.context.fillStyle = "#ff2d15";
+            this.canvas.context.shadowBlur = 20 + this.canvas.globalGlow/3;
+            this.canvas.context.shadowColor = "yellow";
+            this.canvas.context.fillStyle = "yellow";
         }
-        this.canvas.context.shadowBlur = 30;
+        
         this.canvas.context.fillRect(this.canvas.offset + this.x, this.y, this.width, this.height);
         this.canvas.context.shadowBlur = 0;
     }

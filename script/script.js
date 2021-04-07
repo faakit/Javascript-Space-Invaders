@@ -12,10 +12,8 @@ let f = new FontFace('Press Start', 'url(font/pressStart.ttf)');
 // Carrega a fonte principal para carregar o jogo
 f.load().then(function() {
     document.fonts.add(f);
-    init();
 });
-
-
+resources.onReady(init);
 
 function init() {
     let engine = new Engine();

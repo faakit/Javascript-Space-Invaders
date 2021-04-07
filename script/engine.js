@@ -110,6 +110,7 @@ class Engine {
         this.player = new Player(this.canvas);
         this.rockets = [];
         this.isPressed = {};
+        this.defaultCooldown = 45;
 
         this.levelCooldown = 600;
 
@@ -194,7 +195,7 @@ class Engine {
                 continue;
             }
             // Colisão com a pedra passa um frame, se for o último frame a destrói
-            for(let j = 0; j<this.rocksCluster.size; j++){
+            for(let j = 0; j<this.rocksCluster.rocks.length; j++){
                 if (this.isColision(this.rocksCluster.rocks[j], this.rockets[i])) {
                     this.rocksCluster.rocks[j].frame++;
                     this.rockets.splice(i, 1);
@@ -231,7 +232,7 @@ class Engine {
 
                 let rand = 1 + Math.floor(Math.random() * 3)
                 this.cluster.append(rand)
-                this.moveDirec.dx = this.moveDirec.dx * 1.03;
+                if(this.moveDirec.dx < 3 && this.moveDirec.dx > -3) this.moveDirec.dx = this.moveDirec.dx * 1.03;
             }
 
             // Checa a colisão com todos rockets da cena
@@ -242,7 +243,6 @@ class Engine {
                     this.invaderKill = new Sound("soundfx/invaderkilled.wav");
                     this.invaderKill.play();
                     this.cluster.invaders.splice(i, 1);
-                    this.cluster.size--;
                     this.rockets.splice(j, 1);
                     this.player.score += 10;
                     continue;

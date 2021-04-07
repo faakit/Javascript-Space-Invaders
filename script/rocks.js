@@ -19,16 +19,13 @@ class Rock {
 }
 
 class RocksCluster {
-    size = 0;
-
     constructor(canvas) {
         this.rocks = [];
         this.rockPos =[144.8, 184.8, 224.8, 452, 492, 532, 759.2, 799.2, 839.2];
 
 
         for (let i = 0; i < 9; i++) {
-            let rock = new Rock(canvas, this.rockPos[i] , this.size);
-            this.size++;
+            let rock = new Rock(canvas, this.rockPos[i] , this.rocks.length);
             this.rocks.push(rock);
         }
     }
