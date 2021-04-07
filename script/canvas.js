@@ -8,7 +8,7 @@ class Canvas {
     glowUp = true;
 
     constructor() {
-        this.sprite = new Sprite(this, 'img/firstScreen.png', [1024, 768], 8, [0, 1]);
+        this.sprite = new Sprite(this, 'img/firstScreen.png', [1024, 768], 32, [0, 1]);
 
         this.board = document.getElementById("space");
         this.context = this.board.getContext("2d");
@@ -69,7 +69,7 @@ class Canvas {
                     size: 2 + Math.floor(Math.random() * 4),
                     x: Math.floor(Math.random() * this.board.width),
                     y: 0,
-                    dy: 1 + Math.floor(Math.random() * 5)
+                    dy: 2 + Math.floor(Math.random() * 10)
                 };
 
                 this.stars.push(star);
@@ -80,14 +80,14 @@ class Canvas {
                     size: 1 + Math.floor(Math.random() * 2),
                     x: Math.floor(Math.random() * this.board.width),
                     y: this.board.height,
-                    dy: - 1 - Math.floor(Math.random() * 2)
+                    dy: - 2 - Math.floor(Math.random() * 4)
                 };
 
                 this.stars.push(star);
             }
 
             // Pausa entre cada fornada de estrelas
-            this.starTimer = 30;
+            this.starTimer = 15;
         } else {
             this.starTimer--;
         }
@@ -127,6 +127,7 @@ class Canvas {
     }
 
     drawStartingScreen(){
+        this.drawBackground()
         this.sprite.render(this.offset, 0);
 
         /* Insert magic here */

@@ -7,12 +7,24 @@ class Sound {
         this.sound.setAttribute("preload", "auto");
         this.sound.setAttribute("controls", "none");
         this.sound.style.display = "none";
+        this.sound.volume = .4;
         document.body.appendChild(this.sound);
-        this.play = function () {
-            this.sound.play();
-        }
-        this.stop = function () {
-            this.sound.pause();
-        }
+    }
+
+    play() {
+        this.sound.play();
+    }
+
+    pause() {
+        this.sound.pause();
+    }
+
+    stop() {
+        this.sound.pause();
+        this.sound.currentTime = 0;
+    }
+
+    loop() {
+        this.sound.loop = true;
     }
 }
