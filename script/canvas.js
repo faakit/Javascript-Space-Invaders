@@ -121,11 +121,27 @@ class Canvas {
         this.context.fillStyle = "#ff2d15";
         this.context.textAlign = "center";
         this.context.textBaseline = "middle";
+
+        if (status === "GAME OVER")
+            this.context.shadowBlur = 5 + this.globalGlow / 5;
+
         this.context.fillText(status, this.middle, this.height / 4);
 
+        this.context.shadowBlur = 5;
         this.context.font = "30px Press Start";
         this.context.fillText(`Your Score: ${score}`, this.middle, this.height / 2);
+
+        if (status === "GAME OVER" && score === hiScore && hiScore > 0) {
+            this.context.shadowBlur = 5 + this.globalGlow / 3;
+            this.context.shadowColor = "#12ff00";
+            this.context.fillStyle = "#12ff00";
+        }
+
         this.context.fillText(`Hi Score: ${hiScore}`, this.middle, 60 + this.height / 2);
+
+        this.context.shadowBlur = 5;
+        this.context.shadowColor = "#ff2d15";
+        this.context.fillStyle = "#ff2d15";
 
         this.context.font = "15px Press Start";
         this.context.fillText(`Press ENTER/ESC to ${action}`, this.middle, 150 + this.height / 2);

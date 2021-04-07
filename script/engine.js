@@ -134,6 +134,7 @@ class Engine {
                     return;
                 }
             } else if (this.gameStatus === "over") {
+                this.glowPulse();
                 this.canvas.drawWaiting("GAME OVER", "restart", this.actualScore, this.highScore);
             } else if (this.gameStatus === "paused") {
                 this.canvas.drawWaiting("PAUSED", "continue", this.player.score, this.highScore);
@@ -153,8 +154,7 @@ class Engine {
         }, 10);
     }
 
-    gameStep() {
-        // Global Glow
+    glowPulse() {
         if(this.canvas.glowUp){
             if(this.canvas.globalGlow == 40) this.canvas.glowUp = false;
             this.canvas.globalGlow += 2;
@@ -162,6 +162,10 @@ class Engine {
             if(this.canvas.globalGlow == 0) this.canvas.glowUp = true;
             this.canvas.globalGlow -= 2;
         }
+    }
+
+    gameStep() {
+        this.glowPulse();
 
         // Desenha os elementos da HUD
         this.canvas.draw(this.player.score, this.highScore, this.player.lifes);
