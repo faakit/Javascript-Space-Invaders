@@ -145,10 +145,10 @@ class Engine {
         // Global Glow
         if(this.canvas.glowUp){
             if(this.canvas.globalGlow == 40) this.canvas.glowUp = false;
-            this.canvas.globalGlow += 1;
+            this.canvas.globalGlow += 2;
         } else {
             if(this.canvas.globalGlow == 0) this.canvas.glowUp = true;
-            this.canvas.globalGlow -= 1;
+            this.canvas.globalGlow -= 2;
         }
 
         // Desenha os elementos da HUD

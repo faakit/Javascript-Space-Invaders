@@ -40,14 +40,17 @@ class Canvas {
     }
 
     write(label, score, x, y) {
+        this.context.shadowBlur = 5;
+        this.context.shadowColor = "#de1c4e";
         this.context.textAlign = "center";
         this.context.textBaseline = "middle";
-        this.context.font = "30px Courier New";
+        this.context.font = "20px Press Start";
         this.context.fillStyle = "#de1c4e";
         this.context.strokeStyle = "#de1c4e";
         label += score;
         this.context.fillText(label, x, y);
         this.context.strokeText(label, x, y);
+        this.context.shadowBlur = 0;
     }
 
     stars = [];
@@ -112,18 +115,21 @@ class Canvas {
     drawWaiting(status, action, score, hiScore) {
         this.drawBackground()
 
-        this.context.font = "100px Courier New";
+        this.context.shadowBlur = 5;
+        this.context.shadowColor = "#ff2d15";
+        this.context.font = "80px Press Start";
         this.context.fillStyle = "#ff2d15";
         this.context.textAlign = "center";
         this.context.textBaseline = "middle";
         this.context.fillText(status, this.middle, this.height / 4);
 
-        this.context.font = "50px Courier New";
+        this.context.font = "30px Press Start";
         this.context.fillText(`Your Score: ${score}`, this.middle, this.height / 2);
         this.context.fillText(`Hi Score: ${hiScore}`, this.middle, 60 + this.height / 2);
 
-        this.context.font = "25px Courier New";
+        this.context.font = "15px Press Start";
         this.context.fillText(`Press ENTER/ESC to ${action}`, this.middle, 150 + this.height / 2);
+        this.context.shadowBlur = 0;
     }
 
     drawStartingScreen(){

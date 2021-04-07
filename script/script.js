@@ -7,8 +7,15 @@ resources.load([
     'img/player.png'
 ]);
 
-// Init se torna uma função e então só roda assim que carregadas as imagens do jogo
-resources.onReady(init);
+let f = new FontFace('Press Start', 'url(font/pressStart.ttf)');
+
+// Carrega a fonte principal para carregar o jogo
+f.load().then(function() {
+    document.fonts.add(f);
+    init();
+});
+
+
 
 function init() {
     let engine = new Engine();
