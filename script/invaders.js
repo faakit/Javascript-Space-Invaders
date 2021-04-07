@@ -5,7 +5,7 @@ class Invader {
     width = this.size;
     height = this.size;
 
-    invaderGlowDic = {1:"#008d27", 2:"#ff0080", 3:"#e73029"};
+    invaderGlowDic = {1:"#83368a", 2:"#ff0080", 3:"#e73029"};
     constructor(canvas, x, y, clusterIndex, type) {
         this.canvas = canvas;
         this.x = x;
