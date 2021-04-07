@@ -2,6 +2,7 @@
 
 class Engine {
     cooldown = 0;
+    defaultCooldown = 45;
     holdingKey = false;
     validActions = {
         ArrowLeft() {
@@ -22,9 +23,9 @@ class Engine {
             if (this.cooldown || this.gameStatus != "running") {
                 return;
             }
-
+            this.shoot = new Sound("soundfx/shoot.wav");
             this.shoot.play();
-            this.cooldown = 45;
+            this.cooldown = this.defaultCooldown;
             this.rockets.push(this.player.shoot());
         },
         Enter() {
@@ -82,8 +83,7 @@ class Engine {
         document.addEventListener("keydown", ev => this.keyPress(ev));
         document.addEventListener("keyup", ev => this.keyPress(ev));
 
-        this.shoot = new Sound("soundfx/shoot.wav");
-        this.invaderKill = new Sound("soundfx/invaderkilled.wav");
+        
         this.playerHit = new Sound("soundfx/explosion.wav");
         this.gameMusic = new Sound("soundfx/goosebumps.mp3");
         this.pauseMusic = new Sound("soundfx/bladerunner2049.mp3");
@@ -210,7 +210,7 @@ class Engine {
         this.player.draw();
 
         // Checks dos invaders
-        if(this.cluster.invaders.length < 6){
+        if(this.cluster.invaders.length < 2){     // Caso um invader fique sozinho, outra linha será spawnada sem acrescentar dificuldade ao jogo
             this.cluster.move(0, 40);
             let rand = 1 + Math.floor(Math.random() * 3)
             this.cluster.append(rand)
@@ -239,6 +239,7 @@ class Engine {
                 // Caso haja colisão com invader acrescenta 10 ao score
                 if (this.rockets[j].from === "player"
                     && this.isColision(this.cluster.invaders[i], this.rockets[j])) {
+                    this.invaderKill = new Sound("soundfx/invaderkilled.wav");
                     this.invaderKill.play();
                     this.cluster.invaders.splice(i, 1);
                     this.cluster.size--;
@@ -262,6 +263,7 @@ class Engine {
             this.levelCooldown--;
         }else{
             this.cluster.shootChance++;
+            if(this.defaultCooldown > 10) this.defaultCooldown--;
             this.levelCooldown = 600;
         }
     }
