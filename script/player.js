@@ -37,7 +37,7 @@ class Rocket {
             this.width = 5;
             this.height = 20;
         } else {
-            this.width = 10;
+            this.width = 5;
             this.height = 10;
         }
 

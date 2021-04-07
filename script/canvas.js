@@ -5,6 +5,8 @@ class Canvas {
     height = 768;
 
     constructor() {
+        this.sprite = new Sprite(this, 'img/firstScreen.png', [1024, 768], 8, [0, 1]);
+
         this.board = document.getElementById("space");
         this.context = this.board.getContext("2d");
         this.background = "#111f28";
@@ -115,4 +117,11 @@ class Canvas {
         this.context.font = "25px Courier New";
         this.context.fillText(`Press ENTER/ESC to ${action}`, this.middle, 150 + this.height / 2);
     }
+
+    drawStartingScreen(){
+        this.sprite.render(this.offset, 0);
+
+        /* Insert magic here */
+    }
+
 }

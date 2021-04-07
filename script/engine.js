@@ -57,7 +57,6 @@ class Engine {
         this.music.push(new Sound("soundfx/fastinvader3.wav"));
         this.music.push(new Sound("soundfx/fastinvader4.wav"));
 
-        //this.actualScore = 0;
         this.highScore = 0;
         this.gameStatus = "running";
     }
