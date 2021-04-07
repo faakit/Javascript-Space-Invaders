@@ -11,7 +11,7 @@ class Invader {
         this.x = x;
         this.y = y;
         this.clusterIndex = clusterIndex;
-        this.sprite = new Sprite(this.canvas, "img/invader" + type + ".png", [this.size, this.size], 10, [0, 1, 2, 3, 4, 3, 2, 1], [this.invaderGlowDic[type], 30]);
+        this.sprite = new Sprite(this.canvas, "img/invader" + type + ".png", [this.size, this.size], 10, [0, 1, 2, 3, 4, 3, 2, 1], [this.invaderGlowDic[type], 10]);
     }
 
     draw() {

@@ -54,7 +54,7 @@ class Rocket {
             this.canvas.context.shadowColor = "#ff2d15";
             this.canvas.context.fillStyle = "#ff2d15";
         }
-        this.canvas.context.shadowBlur = 5;
+        this.canvas.context.shadowBlur = 30;
         this.canvas.context.fillRect(this.canvas.offset + this.x, this.y, this.width, this.height);
         this.canvas.context.shadowBlur = 0;
     }
