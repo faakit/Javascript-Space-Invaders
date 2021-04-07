@@ -5,13 +5,13 @@ class Invader {
     width = this.size;
     height = this.size;
 
-    invaderGlowDic = {1:"#008d27", 2:"#ff0080", 3:"#e73029"};
+    invaderGlowDic = {1:"#83368a", 2:"#ff0080", 3:"#e73029"};
     constructor(canvas, x, y, clusterIndex, type) {
         this.canvas = canvas;
         this.x = x;
         this.y = y;
         this.clusterIndex = clusterIndex;
-        this.sprite = new Sprite(this.canvas, "img/invader" + type + ".png", [this.size, this.size], 10, [0, 1, 2, 3, 4, 3, 2, 1], [this.invaderGlowDic[type], 30]);
+        this.sprite = new Sprite(this.canvas, "img/invader" + type + ".png", [this.size, this.size], 10, [0, 1, 2, 3, 4, 3, 2, 1], [this.invaderGlowDic[type], 10]);
     }
 
     draw() {

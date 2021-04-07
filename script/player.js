@@ -11,7 +11,7 @@ class Player {
         this.y = canvas.height - (this.size * 2);
         this.lifes = 3;
         this.score = 0;
-        this.sprite = new Sprite(this.canvas, "img/player.png", [this.size, this.size], 0, [0], ["#ffef00", 5]);
+        this.sprite = new Sprite(this.canvas, "img/player.png", [this.size, this.size], 0, [0], ["#23cad5", 3]);
     }
 
     draw() {
@@ -54,7 +54,7 @@ class Rocket {
             this.canvas.context.shadowColor = "#ff2d15";
             this.canvas.context.fillStyle = "#ff2d15";
         }
-        this.canvas.context.shadowBlur = 5;
+        this.canvas.context.shadowBlur = 30;
         this.canvas.context.fillRect(this.canvas.offset + this.x, this.y, this.width, this.height);
         this.canvas.context.shadowBlur = 0;
     }

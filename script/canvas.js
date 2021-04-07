@@ -34,22 +34,22 @@ class Canvas {
     draw(score, highScore, lifes) {
         this.drawBackground();
 
-        this.write("Lifes: ", lifes, this.offset + 120, 730);
-        this.write("Score: ", score, this.middle, 730);
-        this.write("Hi Score: ", highScore, this.offset + 900, 730);
+        this.write("LIFES: ", lifes, this.offset + 120, 730);
+        this.write("SCORE: ", score, this.middle, 730);
+        this.write("HI SCORE: ", highScore, this.offset + 900, 730);
     }
 
     write(label, score, x, y) {
-        this.context.shadowBlur = 5;
+        this.context.shadowBlur = 3;
         this.context.shadowColor = "#de1c4e";
         this.context.textAlign = "center";
         this.context.textBaseline = "middle";
         this.context.font = "20px Press Start";
         this.context.fillStyle = "#de1c4e";
-        this.context.strokeStyle = "#de1c4e";
+        //this.context.strokeStyle = "#de1c4e";
         label += score;
         this.context.fillText(label, x, y);
-        this.context.strokeText(label, x, y);
+        //this.context.strokeText(label, x, y);
         this.context.shadowBlur = 0;
     }
 
