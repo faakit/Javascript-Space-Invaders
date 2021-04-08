@@ -1,6 +1,7 @@
 resources.load([
     'img/firstScreen.png',
     "img/rock.png",
+    'img/invader4.png',
     'img/invader3.png',
     'img/invader2.png',
     'img/invader1.png',

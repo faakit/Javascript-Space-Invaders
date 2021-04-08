@@ -100,7 +100,8 @@ class Engine {
         this.rocksCluster = new RocksCluster(this.canvas);
 
         // starting enemies
-        let enemyMatrix = [[3, 3, 3, 3, 3, 3, 3, 3, 3],
+        let enemyMatrix = [[4, 4, 4, 4, 4, 4, 4, 4, 4],
+                           [3, 3, 3, 3, 3, 3, 3, 3, 3],
                            [2, 2, 2, 2, 2, 2, 2, 2, 2],
                            [1, 1, 1, 1, 1, 1, 1, 1, 1]];
         this.cluster = new Cluster(this.canvas, enemyMatrix);
@@ -232,7 +233,7 @@ class Engine {
                 this.moveDirec.dx = -this.moveDirec.dx
                 this.cluster.move(0, 40);
 
-                let rand = 1 + Math.floor(Math.random() * 3)
+                let rand = 1 + Math.floor(Math.random() * 4)
                 this.cluster.append(rand)
                 if(this.moveDirec.dx < 3 && this.moveDirec.dx > -3) this.moveDirec.dx = this.moveDirec.dx * 1.03;
             }
