@@ -5,7 +5,7 @@ class Invader {
     width = this.size;
     height = this.size;
 
-    invaderGlowDic = {1:"#83368a", 2:"#ff0080", 3:"#e73029"};
+    invaderGlowDic = {1:"#83368a", 2:"#ff0080", 3:"#e73029", 4:"#20639b"};
     constructor(canvas, x, y, clusterIndex, type) {
         this.canvas = canvas;
         this.x = x;
@@ -40,7 +40,7 @@ class Cluster {
         this.y = 0;
 
         //Cria cada invader individualmente
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 9; j++) {
                 if (enemyMatrix[i][j] !== 0) {
                     this.size++;
