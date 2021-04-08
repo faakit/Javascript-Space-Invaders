@@ -211,10 +211,12 @@ class Engine {
         this.player.draw();
 
         // Checks dos invaders
-        if(this.cluster.invaders.length < 2){     // Caso um invader fique sozinho, outra linha será spawnada sem acrescentar dificuldade ao jogo
+        if(this.cluster.invaders.length < 2){     // Caso um invader fique sozinho, outra linha será spawnada acrescentando velocidade e +20 pontos
             this.cluster.move(0, 40);
             let rand = 1 + Math.floor(Math.random() * 3)
             this.cluster.append(rand)
+            this.moveDirec.dx = this.moveDirec.dx * 1.02;
+            this.player.score += 20;
         }
         for (let i = this.cluster.invaders.length - 1; i >= 0; i--) {
             // Desenha invaders
