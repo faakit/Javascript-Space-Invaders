@@ -137,6 +137,7 @@ class Engine {
             } else if (this.gameStatus === "over") {
                 this.glowPulse();
                 this.canvas.drawWaiting("GAME OVER", "restart", this.actualScore, this.highScore);
+                    
             } else if (this.gameStatus === "paused") {
                 this.canvas.drawWaiting("PAUSED", "continue", this.player.score, this.highScore);
             }
@@ -234,7 +235,7 @@ class Engine {
 
                 let rand = 1 + Math.floor(Math.random() * 3)
                 this.cluster.append(rand)
-                if(this.moveDirec.dx < 3 && this.moveDirec.dx > -3) this.moveDirec.dx = this.moveDirec.dx * 1.03;
+                if(this.moveDirec.dx < 3.5 && this.moveDirec.dx > -3.5) this.moveDirec.dx = this.moveDirec.dx * 1.03;
             }
 
             // Checa a colisão com todos rockets da cena
@@ -295,6 +296,20 @@ class Engine {
     gameOver() {
         if (!this.player.lifes) {
             // f
+            // Pede informaçoes do usuário para o ranking e o envia ao db
+            let nick = prompt("Write your name to be on the rank :)", "");
+            if (nick != undefined || nick != "") {
+                firebase.firestore().collection("ranking").add({
+                    user: nick,
+                    score: this.player.score
+                })
+                .then((docRef) => {
+                    console.log("Document written with ID: ", docRef.id);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            }
             this.gameStatus = "over";
 
             return true;
