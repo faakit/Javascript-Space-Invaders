@@ -14,8 +14,8 @@ class Invader {
         this.sprite = new Sprite(this.canvas, "img/invader" + type + ".png", [this.size, this.size], 10, [0, 1, 2, 3, 4, 3, 2, 1], [this.invaderGlowDic[type], 10]);
     }
 
-    draw() {
-        this.sprite.render(this.canvas.offset + this.x, this.y);
+    draw(performanceMode) {
+        this.sprite.render(performanceMode, this.canvas.offset + this.x, this.y);
     }
 
     shoot() {

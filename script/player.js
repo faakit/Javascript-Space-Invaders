@@ -14,9 +14,9 @@ class Player {
         this.sprite = new Sprite(this.canvas, "img/player.png", [this.size, this.size], 0, [0], ["#23cad5", 3]);
     }
 
-    draw() {
+    draw(performanceMode) {
         // Desenha o player considerando o offset
-        this.sprite.renderStatic(this.canvas.offset + this.x, this.y, 0);
+        this.sprite.renderStatic(performanceMode, this.canvas.offset + this.x, this.y, 0);
     }
 
     move(dx) {
