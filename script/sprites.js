@@ -26,10 +26,10 @@ class Sprite {
     }
 
     // Para renderizações animadas nas quais os frames se intercalam
-    render(x, y) {
+    render(performanceMode, x, y) {
         this.x = this.frame * this.size[0];
 
-        if(this.glow){
+        if(this.glow && !performanceMode){
             this.canvas.context.shadowBlur = this.glowIntensity + this.canvas.globalGlow;
             this.canvas.context.shadowColor = this.glowColor;
         }
@@ -50,8 +50,8 @@ class Sprite {
     }
 
     // Para renderizações estáticas, podendo mudar o frame
-    renderStatic(x, y, n) {
-        if(this.glow){
+    renderStatic(performanceMode, x, y, n) {
+        if(this.glow && !performanceMode){
             this.canvas.context.shadowBlur = this.glowIntensity + this.canvas.globalGlow/5;
             this.canvas.context.shadowColor = this.glowColor;
         }

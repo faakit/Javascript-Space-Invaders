@@ -55,6 +55,13 @@ class Engine {
 
             Sound.muteGame()
             this.holdingKey = true;
+        },
+        p() {
+            if (this.holdingKey)
+                return;
+
+            this.performanceMode = !this.performanceMode;
+            this.holdingKey = true;
         }
     };
 
@@ -93,6 +100,7 @@ class Engine {
 
         this.highScore = 0;
         this.gameStatus = "startScreen";
+        this.performanceMode = false;
     }
 
     run() {
@@ -123,7 +131,7 @@ class Engine {
     mainLoop() {
         setTimeout(() => {
             if (this.gameStatus === "startScreen") {
-                this.canvas.drawStartingScreen();
+                this.canvas.drawStartingScreen(this.performanceMode);
             } else if (this.gameStatus === "running") {
                 this.gameStep();
                 if (this.gameOver()) {
@@ -175,7 +183,7 @@ class Engine {
 
         // Desenhar os rocks
         for (let i = 0; i < this.rocksCluster.rocks.length; i++) {
-            this.rocksCluster.rocks[i].draw();
+            this.rocksCluster.rocks[i].draw(this.performanceMode);
         }
 
         // Busca rockets em cena, os desenha, move e checa colisão com player e pedras
@@ -210,7 +218,7 @@ class Engine {
         }
 
         // Desenha o player
-        this.player.draw();
+        this.player.draw(this.performanceMode);
 
         // Checks dos invaders
         if(this.cluster.invaders.length < 2){     // Caso um invader fique sozinho, outra linha será spawnada acrescentando velocidade e +20 pontos
@@ -222,7 +230,7 @@ class Engine {
         }
         for (let i = this.cluster.invaders.length - 1; i >= 0; i--) {
             // Desenha invaders
-            this.cluster.invaders[i].draw();
+            this.cluster.invaders[i].draw(this.performanceMode);
 
             if (this.isColision(this.player, this.cluster.invaders[i]))
                 this.player.lifes = 0;
@@ -278,7 +286,7 @@ class Engine {
         // Se o player segurar ESC ou m a ação será realizada uma vez só
         // até que ele solte a tecla.
         // Evita flickering entre os estados mudados pelo evento.
-        if ((keyPressed === "Escape" || keyPressed === "m") && event.type === "keyup")
+        if ((keyPressed === "Escape" || keyPressed === "m" || keyPressed === "p") && event.type === "keyup")
             this.holdingKey = false;
 
         this.isPressed[keyPressed] = event.type == "keydown";

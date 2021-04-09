@@ -13,8 +13,8 @@ class Rock {
         this.frame = 0;
     }
 
-    draw() {
-        this.sprite.renderStatic(this.canvas.offset + this.x, this.y, this.frame);
+    draw(performanceMode) {
+        this.sprite.renderStatic(performanceMode, this.canvas.offset + this.x, this.y, this.frame);
     }
 }
 
