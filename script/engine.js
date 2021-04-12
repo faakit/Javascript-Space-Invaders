@@ -207,6 +207,8 @@ class Engine {
             // Colisão com a pedra passa um frame, se for o último frame a destrói
             for(let j = 0; j<this.rocksCluster.rocks.length; j++){
                 if (this.isColision(this.rocksCluster.rocks[j], this.rockets[i])) {
+                    this.rockHit = new Sound("soundfx/bang.wav");
+                    this.rockHit.play();
                     this.rocksCluster.rocks[j].frame++;
                     this.rockets.splice(i, 1);
                     if(this.rocksCluster.rocks[j].frame === 4){
