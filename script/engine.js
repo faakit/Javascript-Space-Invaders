@@ -120,6 +120,7 @@ class Engine {
         this.rockets = [];
         this.isPressed = {};
         this.defaultCooldown = 45;
+        this.shieldTimer = 0;
 
         this.levelCooldown = 600;
 
@@ -199,8 +200,16 @@ class Engine {
             // Colisão com player diminui 1 vida
             if (this.rockets[i].from === "invader"
             && this.isColision(this.player, this.rockets[i])) {
-                this.playerHit.play();
-                this.player.lifes -= 1;
+                if (!this.player.isShielded) {
+                    this.playerHit.play();
+                    this.player.lifes -= 1;
+                    this.player.move(-this.player.x + 512);
+                    this.player.toggleShield();
+                    this.shieldTimer = 200;
+                } else {
+                    this.shieldHit = new Sound("soundfx/shield.wav")
+                    this.shieldHit.play();
+                }
                 this.rockets.splice(i, 1);
                 continue;
             }
@@ -267,6 +276,11 @@ class Engine {
         this.cluster.move(this.moveDirec.dx, this.moveDirec.dy);
         if (this.cluster.invaders.length)
             this.rockets = this.rockets.concat(this.cluster.shoot());
+
+        if (this.shieldTimer)
+            this.shieldTimer--;
+        else if (this.player.isShielded)
+            this.player.toggleShield();
 
         // Evita span de tiros
         if (this.cooldown > 0)
