@@ -12,11 +12,15 @@ class Player {
         this.lifes = 3;
         this.score = 0;
         this.sprite = new Sprite(this.canvas, "img/player.png", [this.size, this.size], 0, [0], ["#23cad5", 3]);
+        this.isShielded = false;
     }
 
     draw(performanceMode) {
+        let shieldColor = false;
+        if (this.isShielded)
+            shieldColor = "#d42c23"
         // Desenha o player considerando o offset
-        this.sprite.renderStatic(performanceMode, this.canvas.offset + this.x, this.y, 0);
+        this.sprite.renderStatic(performanceMode, this.canvas.offset + this.x, this.y, 0, shieldColor);
     }
 
     move(dx) {
@@ -26,6 +30,10 @@ class Player {
     shoot() {
         let rocket = new Rocket("player", this.canvas, this.x + this.size / 2, this.y);
         return rocket;
+    }
+
+    toggleShield() {
+        this.isShielded = !this.isShielded;
     }
 }
 

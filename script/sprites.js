@@ -50,10 +50,14 @@ class Sprite {
     }
 
     // Para renderizações estáticas, podendo mudar o frame
-    renderStatic(performanceMode, x, y, n) {
+    renderStatic(performanceMode, x, y, n, altColor=false) {
         if(this.glow && !performanceMode){
+            let color = this.glowColor;
+            if (altColor)
+                color = altColor;
+
             this.canvas.context.shadowBlur = this.glowIntensity + this.canvas.globalGlow/5;
-            this.canvas.context.shadowColor = this.glowColor;
+            this.canvas.context.shadowColor = color;
         }
 
         this.canvas.context.drawImage(

@@ -17,8 +17,41 @@
 </head>
 
 <body>
-    <canvas id="space"></canvas>
+    <div>
+        <canvas id="space"></canvas>
+    </div>
+    <div id="info">
+        <p>Move with arrow keys, fire with the space bar. The invaders wont stop coming and their speed and rate of fire increases as time passes!
+           You can mute the game with m and reduce the glow with p (for improved performance).
+           Scroll down to see the leaderboard.</p>
+        <p> <a href="http://github.com/faakit/Javascript-Space-Invaders">Github Project</a> | 
+            <a href="http://github.com/faakit">André Altoé Santiago</a> | <a href="http://github.com/gustavofim">Gustavo Fim Beloti</a></p>
+    </div>
+
     <style>
+        #info {
+            position: absolute;
+            z-index: 1;
+            top: 768px; 
+            left: 50%;
+            width:1024px;
+            height:20px;
+            text-align: center;
+            transform: translate(-50%);
+            color: #5d7383;
+        }
+        a:link {
+            color: #2596be;
+            text-decoration: none;
+        }
+        a:visited {
+            color: #82368b;
+            text-decoration: none;
+        }
+        a:active {
+            color: #e73029;
+            text-decoration: none;
+        }
         #space {
             padding: 0;
             position: absolute;
