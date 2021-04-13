@@ -10,7 +10,7 @@
 </h1>
 <h2 align="center">
   <a href="https://faakit.github.io/Javascript-Space-Invaders/">Click Here to Play</a>
-<h2>
+</h2>
 
 ## About
 Space Invaders inspired game developed with the intent of familiarizing with the
