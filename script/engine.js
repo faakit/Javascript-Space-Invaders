@@ -166,7 +166,7 @@ class Engine {
 
 
             this.mainLoop();
-        }, 2);
+        }, 10);
     }
 
     glowPulse() {
