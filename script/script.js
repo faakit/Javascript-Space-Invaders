@@ -1,16 +1,16 @@
 resources.load([
-    'img/firstScreen.png',
+    "img/firstScreen.png",
     "img/rock.png",
-    'img/invader4.png',
-    'img/invader3.png',
-    'img/invader2.png',
-    'img/invader1.png',
-    'img/player.png'
+    "img/invader4.png",
+    "img/invader3.png",
+    "img/invader2.png",
+    "img/invader1.png",
+    "img/player.png"
 ]);
 
 // Previne que o espaço faça com que a tela abaixe
 window.addEventListener('keydown', function(e) {
-    if(e.keyCode == 32 && e.target == document.body) {
+    if(e.key == " " && e.target == document.body) {
       e.preventDefault();
     }
 });

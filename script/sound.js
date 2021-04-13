@@ -22,6 +22,11 @@ class Sound {
         this.sound.play();
     }
 
+    playClone(isMuted) {
+        if (!isMuted)
+            this.sound.cloneNode(true).play();
+    }
+
     pause() {
         this.sound.pause();
     }

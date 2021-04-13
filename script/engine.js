@@ -23,8 +23,8 @@ class Engine {
             if (this.cooldown || this.gameStatus != "running") {
                 return;
             }
-            this.shoot = new Sound("soundfx/shoot.wav");
-            this.shoot.play();
+
+            this.shoot.playClone(this.muted);
             this.cooldown = this.defaultCooldown;
             this.rockets.push(this.player.shoot());
         },
@@ -54,6 +54,7 @@ class Engine {
                 return;
 
             Sound.muteGame()
+            this.muted = !this.muted;
             this.holdingKey = true;
         },
         p() {
@@ -97,6 +98,10 @@ class Engine {
         this.playerHit = new Sound("soundfx/explosion.wav");
         this.gameMusic = new Sound("soundfx/goosebumps.mp3");
         this.pauseMusic = new Sound("soundfx/bladerunner2049.mp3");
+        this.shoot = new Sound("soundfx/shoot.wav");
+        this.rockHit = new Sound("soundfx/bang.wav");
+        this.shieldHit = new Sound("soundfx/shield.wav")
+        this.invaderKill = new Sound("soundfx/invaderkilled.wav");
 
         this.gameMusic.loop();
         this.pauseMusic.loop();
@@ -104,6 +109,7 @@ class Engine {
         this.highScore = 0;
         this.gameStatus = "startScreen";
         this.performanceMode = false;
+        this.muted = false;
     }
 
     run() {
@@ -210,8 +216,7 @@ class Engine {
                     this.player.toggleShield();
                     this.shieldTimer = 200;
                 } else {
-                    this.shieldHit = new Sound("soundfx/shield.wav")
-                    this.shieldHit.play();
+                    this.shieldHit.playClone(this.muted);
                 }
                 this.rockets.splice(i, 1);
                 continue;
@@ -219,8 +224,7 @@ class Engine {
             // Colisão com a pedra passa um frame, se for o último frame a destrói
             for(let j = 0; j<this.rocksCluster.rocks.length; j++){
                 if (this.isColision(this.rocksCluster.rocks[j], this.rockets[i])) {
-                    this.rockHit = new Sound("soundfx/bang.wav");
-                    this.rockHit.play();
+                    this.rockHit.playClone(this.muted);
                     this.rocksCluster.rocks[j].frame++;
                     this.rockets.splice(i, 1);
                     if(this.rocksCluster.rocks[j].frame === 4){
@@ -266,8 +270,7 @@ class Engine {
                 // Caso haja colisão com invader acrescenta 10 ao score
                 if (this.rockets[j].from === "player"
                     && this.isColision(this.cluster.invaders[i], this.rockets[j])) {
-                    this.invaderKill = new Sound("soundfx/invaderkilled.wav");
-                    this.invaderKill.play();
+                    this.invaderKill.playClone(this.muted);
                     this.cluster.invaders.splice(i, 1);
                     this.rockets.splice(j, 1);
                     this.player.score += 10;
