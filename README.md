@@ -8,9 +8,9 @@
   Space Invaders
   <br>
 </h1>
-<h2 align="center">
+<h3 align="center">
   <a href="https://faakit.github.io/Javascript-Space-Invaders/">Click Here to Play</a>
-</h2>
+</h3>
 
 ## About
 Space Invaders inspired game developed with the intent of familiarizing with the
