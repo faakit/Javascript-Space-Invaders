@@ -84,6 +84,9 @@ class Engine {
     }
 
     constructor() {
+        this.rankingApi = new RankingApi();
+        this.rankingApi.generate_table();
+
         // Canvas
         this.canvas = new Canvas();
 
@@ -163,7 +166,7 @@ class Engine {
 
 
             this.mainLoop();
-        }, 10);
+        }, 2);
     }
 
     glowPulse() {
@@ -323,18 +326,7 @@ class Engine {
             // f
             // Pede informaçoes do usuário para o ranking e o envia ao db
             let nick = prompt("Write your name to be on the rank :)", "");
-            if (nick != undefined || nick != "") {
-                firebase.firestore().collection("ranking").add({
-                    user: nick,
-                    score: this.player.score
-                })
-                .then((docRef) => {
-                    console.log("Document written with ID: ", docRef.id);
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-            }
+            this.rankingApi.putScore(nick, this.player.score);
             this.gameStatus = "over";
 
             return true;
