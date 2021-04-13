@@ -27,13 +27,13 @@ on the player, getting faster and increasing the rate of fire over time.
 <kbd>p</kbd> disables some of the glow for improved performance.
 
 ## Performance Issues
-The game seems to run better in chromium based browsers (tested in Brave, Edge and
-Chrome). In FireFox the performance was very poor (with mild improvements without 
+The game seems to run better in chromium based browsers (tested in Brave, Chrome and
+Edge). In Firefox the performance was very poor (with mild improvements without 
 the glow).
 
 ## Credits
-- Game music: <a href="https://www.youtube.com/watch?v=dIp7mB_6H5k">Goosebumps by Caspro</a>;
-- Pause music: <a href="https://www.youtube.com/watch?v=_gYjh863j4g">Blade Runner 2049 by Synthwave Goose</a>;
+- Background music: <a href="https://www.youtube.com/watch?v=dIp7mB_6H5k">Goosebumps by Caspro</a>;
+- Pause screen music: <a href="https://www.youtube.com/watch?v=_gYjh863j4g">Blade Runner 2049 by Synthwave Goose</a>;
 - <a href="https://www.classicgaming.cc/classics/space-invaders/sounds">Space Invaders</a>,
 <a href="http://www.classicgaming.cc/classics/asteroids/sounds">Asteroids</a>
 and <a href="https://freesound.org/people/MATRIXXX_/sounds/523762/">this</a>
