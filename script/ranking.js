@@ -89,7 +89,7 @@ class RankingApi {
         body.appendChild(tbl);
         // sets the border attribute of tbl to 2;
         tbl.setAttribute("border", "2");
-        tbl.setAttribute("style", "position:absolute; top:105%;left:50%; transform: translate(-50%, -5%);border-color: white;color: white;");
+        tbl.setAttribute("style", "position:absolute; top:1000px;left:50%; transform: translate(-50%, -5%);border-color: white;color: white;");
       }
     }
 }
