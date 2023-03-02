@@ -164,7 +164,7 @@ class Engine {
             //Checa as teclas pressionadas e faz a ação
             for (let key in this.isPressed) {
                 if (this.isPressed[key]) {
-                    this.action = this.validActions[key]();
+                    this.action = this.validActions[key];
                     if (this.action)
                         this.action();
                 }
