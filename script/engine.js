@@ -1,6 +1,14 @@
 "use strict";
 
-class Engine {
+import HandControlFactory from "../handcontrol/factory.js";
+import { frameSkip, glowIndex } from "../handcontrol/util.js";
+
+export default class Engine {
+    gestureController = undefined;
+    useHands = true;
+    frame = 0;
+    holdingGesture = false;
+
     cooldown = 0;
     defaultCooldown = 45;
     holdingKey = false;
@@ -62,6 +70,13 @@ class Engine {
                 return;
 
             this.performanceMode = !this.performanceMode;
+            this.holdingKey = true;
+        },
+        h() {
+            if (this.holdingKey)
+                return;
+
+            this.useHands = !this.useHands;
             this.holdingKey = true;
         }
     };
@@ -139,7 +154,7 @@ class Engine {
     notPlay = 0;
     musicId = 0;
     mainLoop() {
-        requestAnimationFrame(() => {
+        requestAnimationFrame(async () => {
             if (this.gameStatus === "startScreen") {
                 this.canvas.drawStartingScreen(this.performanceMode);
             } else if (this.gameStatus === "running") {
@@ -162,11 +177,47 @@ class Engine {
             }
 
             //Checa as teclas pressionadas e faz a ação
-            for (let key in this.isPressed) {
-                if (this.isPressed[key]) {
-                    this.action = this.validActions[key];
-                    if (this.action)
-                        this.action();
+            if (!this.useHands) {
+                Object.keys(this.isPressed).forEach(key => {
+                    if (this.isPressed[key]) {
+                        try {
+                            this.validActions[key].bind(this)();
+                        } catch { }
+                    }
+                });
+            } else {
+                if (!this.gestureController) await this.#initializeGesture();
+                if (this.isPressed['h']) {
+                    this.validActions['h'].bind(this)();
+                }
+                this.frame = frameSkip[this.frame];
+                if (this.frame === 0) {
+                    await this.gestureController.estimateHands()
+                }
+                this.canvas.context.fillStyle = "purple";
+                this.canvas.context.fillRect((this.gestureController.x / 300 * this.canvas.width), 700, 20, 20);
+                if (this.player.x + this.canvas.offset < (this.gestureController.x / 300 * this.canvas.width)) {
+                    this.player.move(5);
+                } else if (this.player.x + this.canvas.offset > (this.gestureController.x / 300 * this.canvas.width)) {
+                    this.player.move(-5);
+                }
+                if (this.gestureController.event === "shoot" && !this.cooldown && this.gameStatus === "running") {
+                    this.shoot.playClone(this.muted);
+                    this.cooldown = this.defaultCooldown;
+                    this.rockets.push(this.player.shoot());
+                }
+                if (this.gestureController.event === "pause") {
+                    if (this.gameStatus === "running" && !this.holdingGesture) {
+                        this.pause();
+                    } else if ((this.gameStatus === "over" || this.gameStatus === "startScreen") && !this.holdingGesture) {
+                        this.start();
+                    } else if (this.gameStatus === "paused" && !this.holdingGesture) {
+                        this.resume();
+                    }
+                    this.holdingGesture = true;
+                }
+                if (this.holdingGesture && this.gestureController.event !== "pause") {
+                    this.holdingGesture = false;
                 }
             }
 
@@ -176,13 +227,7 @@ class Engine {
     }
 
     glowPulse() {
-        if (this.canvas.glowUp) {
-            if (this.canvas.globalGlow == 40) this.canvas.glowUp = false;
-            this.canvas.globalGlow += 2;
-        } else {
-            if (this.canvas.globalGlow == 0) this.canvas.glowUp = true;
-            this.canvas.globalGlow -= 2;
-        }
+        this.canvas.globalGlow = glowIndex[this.canvas.globalGlow];
     }
 
     gameStep() {
@@ -308,7 +353,7 @@ class Engine {
         // Se o player segurar ESC ou m a ação será realizada uma vez só
         // até que ele solte a tecla.
         // Evita flickering entre os estados mudados pelo evento.
-        if ((keyPressed === "Escape" || keyPressed === "m" || keyPressed === "p") && event.type === "keyup")
+        if ((keyPressed === "Escape" || keyPressed === "m" || keyPressed === "p" || keyPressed === "h") && event.type === "keyup")
             this.holdingKey = false;
 
         this.isPressed[keyPressed] = event.type == "keydown";
@@ -336,5 +381,9 @@ class Engine {
         }
 
         return false;
+    }
+
+    async #initializeGesture() {
+        this.gestureController = await HandControlFactory.initialize();
     }
 }

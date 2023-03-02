@@ -1,3 +1,5 @@
+import Engine from "./script/engine.js";
+
 resources.load([
     "img/firstScreen.png",
     "img/rock.png",
