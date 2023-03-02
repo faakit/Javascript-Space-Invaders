@@ -148,7 +148,7 @@ class Canvas {
         this.context.shadowBlur = 0;
     }
 
-    drawStartingScreen(performanceMode){
+    drawStartingScreen(performanceMode) {
         this.drawBackground()
         this.sprite.render(performanceMode, this.offset, 0);
 

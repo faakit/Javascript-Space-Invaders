@@ -43,7 +43,7 @@ class Engine {
                 this.pause();
             } else if (this.gameStatus === "over") {
                 this.start();
-            } else if (this.gameStatus === "paused"){
+            } else if (this.gameStatus === "paused") {
                 this.resume();
             }
 
@@ -94,7 +94,7 @@ class Engine {
         document.addEventListener("keydown", ev => this.keyPress(ev));
         document.addEventListener("keyup", ev => this.keyPress(ev));
 
-        
+
         this.playerHit = new Sound("soundfx/explosion.wav");
         this.gameMusic = new Sound("soundfx/goosebumps.mp3");
         this.pauseMusic = new Sound("soundfx/bladerunner2049.mp3");
@@ -118,9 +118,9 @@ class Engine {
 
         // starting enemies
         let enemyMatrix = [[4, 4, 4, 4, 4, 4, 4, 4, 4],
-                           [3, 3, 3, 3, 3, 3, 3, 3, 3],
-                           [2, 2, 2, 2, 2, 2, 2, 2, 2],
-                           [1, 1, 1, 1, 1, 1, 1, 1, 1]];
+        [3, 3, 3, 3, 3, 3, 3, 3, 3],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1]];
         this.cluster = new Cluster(this.canvas, enemyMatrix);
         this.moveDirec = { dx: 1, dy: 0 };
 
@@ -139,7 +139,7 @@ class Engine {
     notPlay = 0;
     musicId = 0;
     mainLoop() {
-        setTimeout(() => {
+        requestAnimationFrame(() => {
             if (this.gameStatus === "startScreen") {
                 this.canvas.drawStartingScreen(this.performanceMode);
             } else if (this.gameStatus === "running") {
@@ -156,7 +156,7 @@ class Engine {
             } else if (this.gameStatus === "over") {
                 this.glowPulse();
                 this.canvas.drawWaiting("GAME OVER", "restart", this.actualScore, this.highScore);
-                    
+
             } else if (this.gameStatus === "paused") {
                 this.canvas.drawWaiting("PAUSED", "continue", this.player.score, this.highScore);
             }
@@ -164,7 +164,7 @@ class Engine {
             //Checa as teclas pressionadas e faz a ação
             for (let key in this.isPressed) {
                 if (this.isPressed[key]) {
-                    this.action = this.validActions[key];
+                    this.action = this.validActions[key]();
                     if (this.action)
                         this.action();
                 }
@@ -172,15 +172,15 @@ class Engine {
 
 
             this.mainLoop();
-        }, 10);
+        });
     }
 
     glowPulse() {
-        if(this.canvas.glowUp){
-            if(this.canvas.globalGlow == 40) this.canvas.glowUp = false;
+        if (this.canvas.glowUp) {
+            if (this.canvas.globalGlow == 40) this.canvas.glowUp = false;
             this.canvas.globalGlow += 2;
         } else {
-            if(this.canvas.globalGlow == 0) this.canvas.glowUp = true;
+            if (this.canvas.globalGlow == 0) this.canvas.glowUp = true;
             this.canvas.globalGlow -= 2;
         }
     }
@@ -208,7 +208,7 @@ class Engine {
 
             // Colisão com player diminui 1 vida
             if (this.rockets[i].from === "invader"
-            && this.isColision(this.player, this.rockets[i])) {
+                && this.isColision(this.player, this.rockets[i])) {
                 if (!this.player.isShielded) {
                     this.playerHit.play();
                     this.player.lifes -= 1;
@@ -222,13 +222,13 @@ class Engine {
                 continue;
             }
             // Colisão com a pedra passa um frame, se for o último frame a destrói
-            for(let j = 0; j<this.rocksCluster.rocks.length; j++){
+            for (let j = 0; j < this.rocksCluster.rocks.length; j++) {
                 if (this.isColision(this.rocksCluster.rocks[j], this.rockets[i])) {
                     this.rockHit.playClone(this.muted);
                     this.rocksCluster.rocks[j].frame++;
                     this.rockets.splice(i, 1);
-                    if(this.rocksCluster.rocks[j].frame === 4){
-                        this.rocksCluster.rocks.splice(j,1);
+                    if (this.rocksCluster.rocks[j].frame === 4) {
+                        this.rocksCluster.rocks.splice(j, 1);
                         continue;
                     }
                 }
@@ -239,7 +239,7 @@ class Engine {
         this.player.draw(this.performanceMode);
 
         // Checks dos invaders
-        if(this.cluster.invaders.length < 2){     // Caso um invader fique sozinho, outra linha será spawnada acrescentando velocidade e +20 pontos
+        if (this.cluster.invaders.length < 2) {     // Caso um invader fique sozinho, outra linha será spawnada acrescentando velocidade e +20 pontos
             this.cluster.move(0, 40);
             let rand = 1 + Math.floor(Math.random() * 3)
             this.cluster.append(rand)
@@ -262,7 +262,7 @@ class Engine {
 
                 let rand = 1 + Math.floor(Math.random() * 4)
                 this.cluster.append(rand)
-                if(this.moveDirec.dx < 3.5 && this.moveDirec.dx > -3.5) this.moveDirec.dx = this.moveDirec.dx * 1.03;
+                if (this.moveDirec.dx < 3.5 && this.moveDirec.dx > -3.5) this.moveDirec.dx = this.moveDirec.dx * 1.03;
             }
 
             // Checa a colisão com todos rockets da cena
@@ -275,7 +275,7 @@ class Engine {
                     this.rockets.splice(j, 1);
                     this.player.score += 10;
                     continue;
-                }    
+                }
             }
         }
 
@@ -293,11 +293,11 @@ class Engine {
             this.cooldown--;
 
         // Mudanças no nível
-        if (this.levelCooldown > 0){
+        if (this.levelCooldown > 0) {
             this.levelCooldown--;
-        }else{
+        } else {
             this.cluster.shootChance++;
-            if(this.defaultCooldown > 10) this.defaultCooldown--;
+            if (this.defaultCooldown > 10) this.defaultCooldown--;
             this.levelCooldown = 600;
         }
     }
