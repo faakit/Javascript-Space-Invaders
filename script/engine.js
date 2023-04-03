@@ -154,7 +154,7 @@ export default class Engine {
     notPlay = 0;
     musicId = 0;
     mainLoop() {
-        requestAnimationFrame(async () => {
+        setTimeout(() => {requestAnimationFrame(async () => {
             if (this.gameStatus === "startScreen") {
                 this.canvas.drawStartingScreen(this.performanceMode);
             } else if (this.gameStatus === "running") {
@@ -223,7 +223,7 @@ export default class Engine {
 
 
             this.mainLoop();
-        });
+        });}, 1000 / 60);
     }
 
     glowPulse() {
