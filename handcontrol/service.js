@@ -33,8 +33,7 @@ export default class HandControlService {
                 return previous
             })
 
-            const { x, y } = hand.keypoints.find(keypoint => keypoint.name === "index_finger_tip")
-            yield { event: result.name, x, y }
+            yield { event: result.name, keypoints: hand.keypoints }
         }
     }
 

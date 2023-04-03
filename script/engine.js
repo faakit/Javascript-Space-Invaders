@@ -191,34 +191,11 @@ export default class Engine {
                     this.validActions['h'].bind(this)();
                 }
                 this.frame = frameSkip[this.frame];
-                if (this.frame === 0) {
+                if (this.frame === 0 || this.frame === 1) {
                     await this.gestureController.estimateHands()
                 }
-                this.canvas.context.fillStyle = "purple";
-                this.canvas.context.fillRect((this.gestureController.x / 300 * this.canvas.width), 700, 20, 20);
-                if (this.player.x + this.canvas.offset < (this.gestureController.x / 300 * this.canvas.width)) {
-                    this.player.move(5);
-                } else if (this.player.x + this.canvas.offset > (this.gestureController.x / 300 * this.canvas.width)) {
-                    this.player.move(-5);
-                }
-                if (this.gestureController.event === "shoot" && !this.cooldown && this.gameStatus === "running") {
-                    this.shoot.playClone(this.muted);
-                    this.cooldown = this.defaultCooldown;
-                    this.rockets.push(this.player.shoot());
-                }
-                if (this.gestureController.event === "pause") {
-                    if (this.gameStatus === "running" && !this.holdingGesture) {
-                        this.pause();
-                    } else if ((this.gameStatus === "over" || this.gameStatus === "startScreen") && !this.holdingGesture) {
-                        this.start();
-                    } else if (this.gameStatus === "paused" && !this.holdingGesture) {
-                        this.resume();
-                    }
-                    this.holdingGesture = true;
-                }
-                if (this.holdingGesture && this.gestureController.event !== "pause") {
-                    this.holdingGesture = false;
-                }
+                this.gestureController.drawHands(this.canvas);
+                this.gestureController.checkGestures(this.player, this);
             }
 
 
